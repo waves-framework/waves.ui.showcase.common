@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../../props/Waves.UI.props" />
+
+  <ItemGroup>
+    <None Remove=".git" />
+    <None Remove=".gitattributes" />
+    <None Remove=".gitignore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RandomDataGenerator.Net" Version="1.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Waves.UI.Drawing.Charting\Waves.UI.Drawing.Charting.csproj" />
+    <ProjectReference Include="..\Waves.UI.Drawing\Waves.UI.Drawing.csproj" />
+    <ProjectReference Include="..\Waves.UI\Waves.UI.csproj" />
+  </ItemGroup>
+
+</Project>
