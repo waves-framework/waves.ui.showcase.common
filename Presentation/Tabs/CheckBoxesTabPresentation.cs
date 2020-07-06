@@ -7,8 +7,13 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
     /// <summary>
     ///     CheckBox tab presentation.
     /// </summary>
-    public abstract class CheckBoxesTabPresentation : TabPresentation
+    public class CheckBoxesTabPresentation : ShowcaseTabPresentation
     {
+        /// <inheritdoc />
+        public CheckBoxesTabPresentation(Core core) : base(core)
+        {
+        }
+
         /// <inheritdoc />
         public override string Name { get; } = "Checkboxes";
 
@@ -20,9 +25,17 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         public override double[] VectorIconThickness { get; } = new double[4];
 
         /// <inheritdoc />
-        public abstract override IPresentationView View { get; }
+        public override IPresentationView View { get; protected set; }
 
         /// <inheritdoc />
-        public override IPresentationViewModel DataContext { get; } = new CheckBoxesTabViewModel();
+        public override IPresentationViewModel DataContext { get; protected set; }
+
+        /// <inheritdoc />
+        public override void Initialize()
+        {
+            DataContext = new CheckBoxesTabViewModel(Core);
+
+            base.Initialize();
+        }
     }
 }

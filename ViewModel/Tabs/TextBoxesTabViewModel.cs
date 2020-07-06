@@ -6,17 +6,14 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
     /// <summary>
     ///     TextBoxes tab view model.
     /// </summary>
-    public class TextBoxesTabViewModel : PresentationViewModel
+    public class TextBoxesTabViewModel : ShowcaseTabViewModel
     {
-        private readonly ITextGeneratorService _textGeneratorService;
+        private ITextGeneratorService _textGeneratorService;
 
-        /// <summary>
-        ///     Creates new instance of <see cref="TextBoxesTabViewModel" />.
-        /// </summary>
-        /// <param name="textGeneratorService">Text generator service.</param>
-        public TextBoxesTabViewModel(ITextGeneratorService textGeneratorService)
+
+        /// <inheritdoc />
+        public TextBoxesTabViewModel(Core core) : base(core)
         {
-            _textGeneratorService = textGeneratorService;
         }
 
         /// <summary>
@@ -32,6 +29,8 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
+            _textGeneratorService = Core.GetService<ITextGeneratorService>();
+
             GenerateData();
         }
 

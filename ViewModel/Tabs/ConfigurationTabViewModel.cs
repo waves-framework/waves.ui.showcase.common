@@ -5,7 +5,11 @@ using System.ComponentModel;
 using System.Windows.Input;
 using Waves.Core.Base.Interfaces;
 using Waves.Presentation.Base;
+using Waves.UI.Commands;
+using Waves.UI.Modality.Base;
+using Waves.UI.Modality.Presentation;
 using Waves.UI.Modality.Presentation.Enums;
+using Waves.UI.Services.Interfaces;
 using Waves.UI.Showcase.Common.Presentation.ModalWindow;
 
 namespace Waves.UI.Showcase.Common.ViewModel.Tabs
@@ -13,9 +17,14 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
     /// <summary>
     ///     Configuration tab view model.
     /// </summary>
-    public class ConfigurationTabViewModel : PresentationViewModel
+    public class ConfigurationTabViewModel : ShowcaseTabViewModel
     {
         private readonly object _locker = new object();
+
+        /// <inheritdoc />
+        public ConfigurationTabViewModel(Core core) : base(core)
+        {
+        }
 
         /// <summary>
         ///     Gets whether configuration is changed.
@@ -36,6 +45,11 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         ///     Gets core configuration.
         /// </summary>
         public IConfiguration Configuration { get; private set; }
+
+        /// <summary>
+        /// Gets collection synchronization service.
+        /// </summary>
+        public ICollectionSynchronizationService CollectionSynchronizationService { get; private set; }
 
         /// <summary>
         ///     Gets "Add new property" command.
@@ -70,7 +84,9 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
-            Configuration = (IConfiguration) App.Core.Configuration.Clone();
+            CollectionSynchronizationService = Core.GetService<ICollectionSynchronizationService>();
+
+            Configuration = (IConfiguration) Core.Configuration.Clone();
 
             InitializeCollection();
             SubscribeEvents();
@@ -82,7 +98,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// </summary>
         private void InitializeCollection()
         {
-            BindingOperations.EnableCollectionSynchronization(Properties, _locker);
+            CollectionSynchronizationService?.EnableCollectionSynchronization(Properties, _locker);
 
             Properties.Clear();
 
@@ -109,7 +125,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="e">Arguments.</param>
         private void OnPropertyCollectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            IsConfigurationChanged = !Configuration.Equals(App.Core.Configuration);
+            IsConfigurationChanged = !Configuration.Equals(Core.Configuration);
         }
 
         /// <summary>
@@ -119,7 +135,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="e">Arguments.</param>
         private void OnConfigurationPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            IsConfigurationChanged = !Configuration.Equals(App.Core.Configuration);
+            IsConfigurationChanged = !Configuration.Equals(Core.Configuration);
         }
 
         /// <summary>
@@ -127,12 +143,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// </summary>
         private void InitializeCommands()
         {
-            AddPropertyCommand = new Command(OnAddProperty);
-            ShowPropertyCommand = new Command(OnShowProperty);
-            EditPropertyCommand = new Command(OnEditProperty);
-            RemovePropertyCommand = new Command(OnRemoveProperty);
-            SaveAllCommand = new Command(OnSaveAll);
-            PropertiesDoubleClickCommand = new Command(OnPropertiesDoubleClick);
+            AddPropertyCommand = new SimpleCommand(OnAddProperty);
+            ShowPropertyCommand = new SimpleCommand(OnShowProperty);
+            EditPropertyCommand = new SimpleCommand(OnEditProperty);
+            RemovePropertyCommand = new SimpleCommand(OnRemoveProperty);
+            SaveAllCommand = new SimpleCommand(OnSaveAll);
+            PropertiesDoubleClickCommand = new SimpleCommand(OnPropertiesDoubleClick);
         }
 
         /// <summary>
@@ -141,8 +157,8 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnAddProperty(object obj)
         {
-            var presentation = new AddPropertyModalWindowPresentation(Properties, Configuration);
-            App.Core.ShowModalityWindow(presentation);
+            var presentation = new AddPropertyModalWindowPresentation(Core, Properties, Configuration);
+            Core.ShowModalityWindow(presentation);
         }
 
         /// <summary>
@@ -151,8 +167,8 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnShowProperty(object obj)
         {
-            var presentation = new ShowPropertyModalWindowPresentation(SelectedProperty);
-            App.Core.ShowModalityWindow(presentation);
+            var presentation = new ShowPropertyModalWindowPresentation(Core, SelectedProperty);
+            Core.ShowModalityWindow(presentation);
         }
 
         /// <summary>
@@ -161,14 +177,14 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="obj"></param>
         private void OnEditProperty(object obj)
         {
-            var presentation = new EditPropertyModalWindowPresentation(SelectedProperty, Configuration);
+            var presentation = new EditPropertyModalWindowPresentation(Core, SelectedProperty, Configuration);
 
             // Hack for next exception:
             // System.Private.CoreLib: An exception was received:
             // An item with the same key has already been added. Key: System.Windows.Controls.ItemsControl+ItemInfo.
             SelectedProperty = null;
 
-            App.Core.ShowModalityWindow(presentation);
+            Core.ShowModalityWindow(presentation);
         }
 
         /// <summary>
@@ -178,6 +194,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         private void OnRemoveProperty(object obj)
         {
             var presentation = new MessageModalWindowPresentation(
+                Core,
                 "Remove property",
                 "Do you want to remove property \"" + SelectedProperty.Name + "\"?",
                 MessageIcon.Question);
@@ -189,12 +206,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
 
                     Properties.Remove(SelectedProperty);
 
-                    App.Core.HideModalityWindow(presentation);
-                }), new Action(() => { App.Core.HideModalityWindow(presentation); }));
+                    Core.HideModalityWindow(presentation);
+                }), new Action(() => { Core.HideModalityWindow(presentation); }));
 
             presentation.InitializeActions(actions);
 
-            App.Core.ShowModalityWindow(presentation);
+            Core.ShowModalityWindow(presentation);
         }
 
         /// <summary>
@@ -204,6 +221,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         private void OnSaveAll(object obj)
         {
             var presentation = new MessageModalWindowPresentation(
+                Core,
                 "Save configuration",
                 "Do you really want to save configuration?",
                 MessageIcon.Warning);
@@ -213,12 +231,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
                 {
                     Configuration.RewriteConfiguration(Configuration);
 
-                    App.Core.HideModalityWindow(presentation);
-                }), new Action(() => { App.Core.HideModalityWindow(presentation); }));
+                    Core.HideModalityWindow(presentation);
+                }), new Action(() => { Core.HideModalityWindow(presentation); }));
 
             presentation.InitializeActions(actions);
 
-            App.Core.ShowModalityWindow(presentation);
+            Core.ShowModalityWindow(presentation);
         }
 
         /// <summary>

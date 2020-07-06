@@ -7,17 +7,13 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
     /// <summary>
     ///     Comboboxes tab view model.
     /// </summary>
-    public class ComboBoxesTabViewModel : PresentationViewModel
+    public class ComboBoxesTabViewModel : ShowcaseTabViewModel
     {
-        private readonly ITextGeneratorService _textGeneratorService;
+        private ITextGeneratorService _textGeneratorService;
 
-        /// <summary>
-        ///     Creates new instance of <see cref="ComboBoxesTabViewModel" />.
-        /// </summary>
-        /// <param name="textGeneratorService">Text generator service.</param>
-        public ComboBoxesTabViewModel(ITextGeneratorService textGeneratorService)
+        /// <inheritdoc />
+        public ComboBoxesTabViewModel(Core core) : base(core)
         {
-            _textGeneratorService = textGeneratorService;
         }
 
         /// <summary>
@@ -28,6 +24,8 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
+            _textGeneratorService = Core.GetService<ITextGeneratorService>();
+
             GenerateData();
         }
 

@@ -11,32 +11,29 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
     /// <summary>
     ///     Show property presentation.
     /// </summary>
-    public abstract class ShowPropertyModalWindowPresentation : ModalWindowPresentation
+    public class ShowPropertyModalWindowPresentation : ModalWindowPresentation
     {
         private IPresentationViewModel _dataContext;
 
         /// <summary>
         ///     Creates new instance of show property presentation.
         /// </summary>
-        public ShowPropertyModalWindowPresentation(IProperty property)
+        public ShowPropertyModalWindowPresentation(Core core, IProperty property) : base(core)
         {
             Property = property;
-
-            InitializeView();
-            InitializeActions();
         }
 
         /// <inheritdoc />
-        public abstract override IVectorImage Icon { get; }
+        public override IVectorImage Icon { get; }
 
         /// <inheritdoc />
         public override string Title { get; } = "Show property";
 
         /// <inheritdoc />
-        public override IPresentationViewModel DataContext => _dataContext;
+        public override IPresentationViewModel DataContext { get; protected set; }
 
         /// <inheritdoc />
-        public abstract override IPresentationView View { get; }
+        public override IPresentationView View { get; protected set; }
 
         /// <summary>
         ///     Gets property.
@@ -46,6 +43,9 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// <inheritdoc />
         public override void Initialize()
         {
+            InitializeView();
+            InitializeActions();
+
             _dataContext = new ShowPropertyModalWindowViewModel(Property);
 
             base.Initialize();
@@ -63,6 +63,9 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// <summary>
         ///     Initializes actions.
         /// </summary>
-        protected abstract void InitializeActions();
+        protected void InitializeActions()
+        {
+            this.AddAction(ModalWindowAction.Close(delegate { Core.HideModalityWindow(this); }));
+        }
     }
 }

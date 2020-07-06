@@ -7,8 +7,13 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
     /// <summary>
     ///     Text tab presentation.
     /// </summary>
-    public abstract class TextTabPresentation : TabPresentation
+    public class TextTabPresentation : ShowcaseTabPresentation
     {
+        /// <inheritdoc />
+        public TextTabPresentation(Core core) : base(core)
+        {
+        }
+
         /// <inheritdoc />
         public override string Name { get; } = "Text styles";
 
@@ -20,9 +25,17 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         public override double[] VectorIconThickness { get; } = new double[4] {0, -2, 0, 0};
 
         /// <inheritdoc />
-        public abstract override IPresentationView View { get; }
+        public override IPresentationView View { get; protected set; }
 
         /// <inheritdoc />
-        public override IPresentationViewModel DataContext { get; } = new TextTabViewModel();
+        public override IPresentationViewModel DataContext { get; protected set; }
+
+        /// <inheritdoc />
+        public override void Initialize()
+        {
+            DataContext = new TextTabViewModel(Core);
+
+            base.Initialize();
+        }
     }
 }
