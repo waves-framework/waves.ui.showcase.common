@@ -1,14 +1,20 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using Waves.Presentation.Base;
+using Waves.UI.Commands;
 
 namespace Waves.UI.Showcase.Common.ViewModel.Tabs
 {
     /// <summary>
     ///     Progress bars tab view model.
     /// </summary>
-    public class ProgressBarsTabViewModel : PresentationViewModel
+    public class ProgressBarsTabViewModel : ShowcaseTabViewModel
     {
+        /// <inheritdoc />
+        public ProgressBarsTabViewModel(Core core) : base(core)
+        {
+        }
+
         /// <summary>
         ///     Gets whether first task is running.
         /// </summary>
@@ -60,8 +66,8 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// </summary>
         private void InitializeCommands()
         {
-            FirstButtonRunCommand = new Command(OnFirstRun);
-            SecondButtonRunCommand = new Command(OnSecondRun);
+            FirstButtonRunCommand = new SimpleCommand(OnFirstRun);
+            SecondButtonRunCommand = new SimpleCommand(OnSecondRun);
         }
 
         /// <summary>

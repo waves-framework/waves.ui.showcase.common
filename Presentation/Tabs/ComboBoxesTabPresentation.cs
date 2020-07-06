@@ -7,8 +7,13 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
     /// <summary>
     ///     ComboBoxes tab presentation.
     /// </summary>
-    public abstract class ComboBoxesTabPresentation : TabPresentation
+    public class ComboBoxesTabPresentation : ShowcaseTabPresentation
     {
+        /// <inheritdoc />
+        public ComboBoxesTabPresentation(Core core) : base(core)
+        {
+        }
+
         /// <inheritdoc />
         public override string Name { get; } = "Comboboxes";
 
@@ -20,9 +25,17 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         public override double[] VectorIconThickness { get; } = new double[4] {0, -4, 0, 0};
 
         /// <inheritdoc />
-        public override IPresentationView View { get; }
+        public override IPresentationView View { get; protected set; }
 
         /// <inheritdoc />
-        public override IPresentationViewModel DataContext { get; } = new ComboBoxesTabViewModel();
+        public override IPresentationViewModel DataContext { get; protected set; }
+
+        /// <inheritdoc />
+        public override void Initialize()
+        {
+            DataContext = new ComboBoxesTabViewModel(Core);
+
+            base.Initialize();
+        }
     }
 }

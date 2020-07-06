@@ -11,7 +11,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
     /// <summary>
     ///     Edit property presentation.
     /// </summary>
-    public abstract class EditPropertyModalWindowPresentation : ModalWindowPresentation
+    public class EditPropertyModalWindowPresentation : ModalWindowPresentation
     {
         private readonly IConfiguration _configuration;
 
@@ -21,31 +21,31 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// <summary>
         ///     Creates new instance of add property modality window action.
         /// </summary>
-        public EditPropertyModalWindowPresentation(IProperty property, IConfiguration configuration)
+        public EditPropertyModalWindowPresentation(Core core, IProperty property, IConfiguration configuration) : base(core)
         {
-            InitializeView();
-            InitializeActions();
-
             _property = property;
             _configuration = configuration;
         }
 
         /// <inheritdoc />
-        public abstract override IVectorImage Icon { get; }
+        public override IVectorImage Icon { get; }
 
         /// <inheritdoc />
         public override string Title => "Edit property";
 
         /// <inheritdoc />
-        public override IPresentationViewModel DataContext => _dataContext;
+        public override IPresentationViewModel DataContext { get; protected set; }
 
         /// <inheritdoc />
-        public abstract override IPresentationView View { get; }
+        public override IPresentationView View { get; protected set; }
 
         /// <inheritdoc />
         public override void Initialize()
         {
             _dataContext = new EditPropertyModalWindowViewModel(_property);
+
+            InitializeView();
+            InitializeActions();
 
             base.Initialize();
         }
@@ -62,6 +62,20 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// <summary>
         ///     Initializes actions.
         /// </summary>
-        protected abstract void InitializeActions();
+        protected void InitializeActions()
+        {
+            this.AddAction(ModalWindowAction.Close(delegate { Core.HideModalityWindow(this); }));
+            this.AddAction(ModalWindowAction.Save(delegate
+            {
+                var context = _dataContext as EditPropertyModalWindowViewModel;
+                if (context == null) return;
+
+                var property = context.GetResultProperty();
+
+                _property.SetValue(property.GetValue());
+
+                Core.HideModalityWindow(this);
+            }));
+        }
     }
 }

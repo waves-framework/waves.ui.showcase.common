@@ -6,8 +6,13 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
     /// <summary>
     ///     Theme tab view model.
     /// </summary>
-    public class ThemeTabViewModel : PresentationViewModel
+    public class ThemeTabViewModel : ShowcaseTabViewModel
     {
+        /// <inheritdoc />
+        public ThemeTabViewModel(Core core) : base(core)
+        {
+        }
+
         /// <summary>
         ///     Gets theme service.
         /// </summary>
@@ -16,7 +21,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
-            ThemeService = App.Core.GetService<IThemeService>();
+            ThemeService = Core.GetService<IThemeService>();
         }
     }
 }

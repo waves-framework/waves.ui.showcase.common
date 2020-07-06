@@ -6,6 +6,7 @@ using Waves.UI.Drawing.Charting.Base;
 using Waves.UI.Drawing.Charting.Base.Enums;
 using Waves.UI.Drawing.Charting.Presentation;
 using Waves.UI.Drawing.Charting.Presentation.Interfaces;
+using Waves.UI.Drawing.Charting.Services.Interfaces;
 using Waves.UI.Drawing.Charting.ViewModel.Interfaces;
 using Waves.UI.Drawing.Services.Interfaces;
 using Waves.UI.Services.Interfaces;
@@ -15,12 +16,22 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
     /// <summary>
     ///     View model for charts tab.
     /// </summary>
-    public class ChartingTabViewModel : PresentationViewModel
+    public class ChartingTabViewModel : ShowcaseTabViewModel
     {
+        /// <inheritdoc />
+        public ChartingTabViewModel(Core core) : base(core)
+        {
+        }
+
         /// <summary>
         ///     Gets drawing service.
         /// </summary>
         public IDrawingService DrawingService { get; private set; }
+
+        /// <summary>
+        /// Gets charting service.
+        /// </summary>
+        public IChartingService ChartingService { get; private set; }
 
         /// <summary>
         ///     Gets themes service.
@@ -40,12 +51,13 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
-            DrawingService = App.Core.GetService<IDrawingService>();
-            ThemeService = App.Core.GetService<IThemeService>();
-            InputService = App.Core.GetService<IInputService>();
+            DrawingService = Core.GetService<IDrawingService>();
+            ThemeService = Core.GetService<IThemeService>();
+            InputService = Core.GetService<IInputService>();
+            ChartingService = Core.GetService<IChartingService>();
 
-            ChartPresentation =
-                new DataSetChartPresentation(DrawingService, ThemeService, InputService, new ChartViewFactory());
+            ChartPresentation = new DataSetChartPresentation(DrawingService, ThemeService, InputService, ChartingService.GetChartViewFactory());
+            
             ChartPresentation.Initialize();
 
             var context = ChartPresentation.DataContext as IDataSetChartViewModel;
@@ -56,6 +68,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
             var num1 = 65536;
             var random1 = new Random();
             var points1 = new Point[num1];
+
             for (var i = 0; i < num1; i++)
             {
                 points1[i].X = i / (float) num1;

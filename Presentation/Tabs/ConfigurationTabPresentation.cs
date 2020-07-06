@@ -7,8 +7,13 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
     /// <summary>
     ///     Configuration tab presentation.
     /// </summary>
-    public abstract class ConfigurationTabPresentation : TabPresentation
+    public class ConfigurationTabPresentation : ShowcaseTabPresentation
     {
+        /// <inheritdoc />
+        public ConfigurationTabPresentation(Core core) : base(core)
+        {
+        }
+
         /// <inheritdoc />
         public override string Name { get; } = "Configuration";
 
@@ -20,9 +25,17 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         public override double[] VectorIconThickness { get; } = new double[4] {0, -2, 0, 0};
 
         /// <inheritdoc />
-        public abstract override IPresentationView View { get; }
+        public override IPresentationView View { get; protected set; }
 
         /// <inheritdoc />
-        public override IPresentationViewModel DataContext { get; } = new ConfigurationTabViewModel();
+        public override IPresentationViewModel DataContext { get; protected set; }
+
+        /// <inheritdoc />
+        public override void Initialize()
+        {
+            DataContext = new ConfigurationTabViewModel(Core);
+
+            base.Initialize();
+        }
     }
 }

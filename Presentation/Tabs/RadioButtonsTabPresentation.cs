@@ -7,8 +7,13 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
     /// <summary>
     ///     Radio buttons tab presentation.
     /// </summary>
-    public abstract class RadioButtonsTabPresentation : TabPresentation
+    public class RadioButtonsTabPresentation : ShowcaseTabPresentation
     {
+        /// <inheritdoc />
+        public RadioButtonsTabPresentation(Core core) : base(core)
+        {
+        }
+
         /// <inheritdoc />
         public override string Name { get; } = "RadioButtons";
 
@@ -20,9 +25,17 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         public override double[] VectorIconThickness { get; } = new double[4];
 
         /// <inheritdoc />
-        public abstract override IPresentationView View { get; }
+        public override IPresentationView View { get; protected set; }
 
         /// <inheritdoc />
-        public override IPresentationViewModel DataContext { get; } = new RadioButtonsViewModel();
+        public override IPresentationViewModel DataContext { get; protected set; }
+
+        /// <inheritdoc />
+        public override void Initialize()
+        {
+            DataContext = new RadioButtonsViewModel(Core);
+
+            base.Initialize();
+        }
     }
 }
