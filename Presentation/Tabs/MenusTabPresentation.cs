@@ -4,8 +4,16 @@ using Waves.UI.Showcase.Common.ViewModel.Tabs;
 
 namespace Waves.UI.Showcase.Common.Presentation.Tabs
 {
-    public abstract class MenusTabPresentation : TabPresentation
+    /// <summary>
+    /// Menus tab presentation.
+    /// </summary>
+    public class MenusTabPresentation : ShowcaseTabPresentation
     {
+        /// <inheritdoc />
+        public MenusTabPresentation(Core core) : base(core)
+        {
+        }
+
         /// <inheritdoc />
         public override string Name { get; } = "Menus";
 
@@ -17,9 +25,17 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         public override double[] VectorIconThickness { get; } = new double[4] {0, -2, 0, 0};
 
         /// <inheritdoc />
-        public abstract override IPresentationView View { get; }
+        public override IPresentationView View { get; protected set; }
 
         /// <inheritdoc />
-        public override IPresentationViewModel DataContext { get; } = new MenusTabViewModel();
+        public override IPresentationViewModel DataContext { get; protected set; }
+
+        /// <inheritdoc />
+        public override void Initialize()
+        {
+            DataContext = new MenusTabViewModel(Core);
+
+            base.Initialize();
+        }
     }
 }

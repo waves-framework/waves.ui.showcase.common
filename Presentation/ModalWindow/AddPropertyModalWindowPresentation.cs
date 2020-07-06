@@ -12,7 +12,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
     /// <summary>
     ///     Add property modality window presentation.
     /// </summary>
-    public abstract class AddPropertyModalWindowPresentation : ModalWindowPresentation
+    public class AddPropertyModalWindowPresentation : ModalWindowPresentation
     {
         private readonly IConfiguration _configuration;
         private IPresentationViewModel _dataContext;
@@ -22,12 +22,9 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// <summary>
         ///     Creates new instance of add property modality window action.
         /// </summary>
-        public AddPropertyModalWindowPresentation(ObservableCollection<IProperty> properties,
-            IConfiguration configuration)
+        public AddPropertyModalWindowPresentation(Core core, ObservableCollection<IProperty> properties,
+            IConfiguration configuration) : base(core)
         {
-            InitializeView();
-            InitializeActions();
-
             _properties = properties;
             _configuration = configuration;
         }
@@ -38,20 +35,23 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         public IConfiguration Configuration { get; private set; }
 
         /// <inheritdoc />
-        public abstract override IVectorImage Icon { get; }
+        public override IVectorImage Icon { get; }
 
         /// <inheritdoc />
         public override string Title => "Add property";
 
         /// <inheritdoc />
-        public override IPresentationViewModel DataContext => _dataContext;
+        public override IPresentationViewModel DataContext { get; protected set; }
 
         /// <inheritdoc />
-        public abstract override IPresentationView View { get; }
+        public override IPresentationView View { get; protected set; }
 
         /// <inheritdoc />
         public override void Initialize()
         {
+            InitializeView();
+            InitializeActions();
+
             _dataContext = new AddPropertyModalWindowViewModel();
 
             base.Initialize();
@@ -69,6 +69,23 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// <summary>
         ///     Initializes actions.
         /// </summary>
-        protected abstract void InitializeActions();
+        protected void InitializeActions()
+        {
+            this.AddAction(ModalWindowAction.Close(delegate { Core.HideModalityWindow(this); }));
+
+            this.AddAction(ModalWindowAction.Save(delegate
+            {
+                var context = _dataContext as AddPropertyModalWindowViewModel;
+                if (context == null) return;
+
+                var property = context.GetResultProperty();
+
+                _configuration.AddProperty(property);
+
+                _properties.Add(property);
+
+                Core.HideModalityWindow(this);
+            }));
+        }
     }
 }

@@ -6,25 +6,22 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
     /// <summary>
     ///     Core tab view model.
     /// </summary>
-    public class CoreTabViewModel : PresentationViewModel
+    public class CoreTabViewModel : ShowcaseTabViewModel
     {
-        /// <summary>
-        ///     Creates new instance of <see cref="CoreTabViewModel" />.
-        /// </summary>
-        /// <param name="loggingService">Logging service.</param>
-        public CoreTabViewModel(ILoggingService loggingService)
+        /// <inheritdoc />
+        public CoreTabViewModel(Core core) : base(core)
         {
-            LoggingService = loggingService;
         }
 
         /// <summary>
         ///     Gets logging service.
         /// </summary>
-        public ILoggingService LoggingService { get; }
+        public ILoggingService LoggingService { get; private set; }
 
         /// <inheritdoc />
         public override void Initialize()
         {
+            LoggingService = Core.GetService<ILoggingService>();
         }
     }
 }

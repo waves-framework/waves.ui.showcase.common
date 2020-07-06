@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Waves.Presentation.Base;
 using Waves.UI.Showcase.Common.Model;
 using Waves.UI.Showcase.Common.Services.Interfaces;
 
@@ -8,17 +7,13 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
     /// <summary>
     ///     Listboxes tab view model.
     /// </summary>
-    public class ListBoxesTabViewModel : PresentationViewModel
+    public class ListBoxesTabViewModel : ShowcaseTabViewModel
     {
-        private readonly ITextGeneratorService _textGeneratorService;
+        private ITextGeneratorService _textGeneratorService;
 
-        /// <summary>
-        ///     Creates new instance of <see cref="ListBoxesTabViewModel" />.
-        /// </summary>
-        /// <param name="textGeneratorService">Text generator service.</param>
-        public ListBoxesTabViewModel(ITextGeneratorService textGeneratorService)
+        /// <inheritdoc />
+        public ListBoxesTabViewModel(Core core) : base(core)
         {
-            _textGeneratorService = textGeneratorService;
         }
 
         /// <summary>
@@ -34,6 +29,8 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
+            _textGeneratorService = Core.GetService<ITextGeneratorService>();
+
             GenerateData();
         }
 

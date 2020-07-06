@@ -7,8 +7,13 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
     /// <summary>
     ///     ListBoxes tab presentation.
     /// </summary>
-    public abstract class ListBoxesTabPresentation : TabPresentation
+    public class ListBoxesTabPresentation : ShowcaseTabPresentation
     {
+        /// <inheritdoc />
+        public ListBoxesTabPresentation(Core core) : base(core)
+        {
+        }
+
         /// <inheritdoc />
         public override string Name { get; } = "ListBoxes";
 
@@ -20,9 +25,17 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         public override double[] VectorIconThickness { get; } = new double[4];
 
         /// <inheritdoc />
-        public abstract override IPresentationView View { get; } 
+        public override IPresentationView View { get; protected set; } 
 
         /// <inheritdoc />
-        public override IPresentationViewModel DataContext { get; } = new ListBoxesTabViewModel();
+        public override IPresentationViewModel DataContext { get; protected set;}
+
+        /// <inheritdoc />
+        public override void Initialize()
+        {
+            DataContext = new ListBoxesTabViewModel(Core);
+
+            base.Initialize();
+        }
     }
 }
