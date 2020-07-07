@@ -63,9 +63,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Waves.UI" Version="2020.1.56" />
-    <PackageReference Include="Waves.UI.Drawing" Version="2020.1.56" />
-    <PackageReference Include="Waves.UI.Drawing.Charting" Version="2020.1.56" />
+    <PackageReference Include="RandomDataGenerator.Net" Version="1.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Waves.UI.Drawing.Charting\Waves.UI.Drawing.Charting.csproj" />
+    <ProjectReference Include="..\Waves.UI.Drawing\Waves.UI.Drawing.csproj" />
+    <ProjectReference Include="..\Waves.UI\Waves.UI.csproj" />
   </ItemGroup>
 
 </Project>

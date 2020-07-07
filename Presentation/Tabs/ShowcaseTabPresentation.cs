@@ -37,9 +37,9 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         public abstract override double[] VectorIconThickness { get; }
 
         /// <inheritdoc />
-        public abstract override IPresentationView View { get; protected set; }
+        public abstract override IPresentationView View { get; }
 
         /// <inheritdoc />
-        public abstract override IPresentationViewModel DataContext { get; protected set; }
+        public abstract override IPresentationViewModel DataContext { get; }
     }
 }
