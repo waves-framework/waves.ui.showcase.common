@@ -62,4 +62,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Waves.UI" Version="2020.1.56" />
+    <PackageReference Include="Waves.UI.Drawing" Version="2020.1.56" />
+    <PackageReference Include="Waves.UI.Drawing.Charting" Version="2020.1.56" />
+  </ItemGroup>
+
 </Project>
