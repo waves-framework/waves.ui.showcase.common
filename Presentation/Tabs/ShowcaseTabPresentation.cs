@@ -16,10 +16,7 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         /// <param name="core">UI Core.</param>
         protected ShowcaseTabPresentation(Core core)
         {
-            if (Core == null)
-                throw new ArgumentNullException(nameof(core));
-
-            Core = core;
+            Core = core ?? throw new ArgumentNullException(nameof(core));
         }
 
         /// <summary>

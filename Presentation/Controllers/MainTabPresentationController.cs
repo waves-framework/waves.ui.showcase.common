@@ -10,13 +10,13 @@ namespace Waves.UI.Showcase.Common.Presentation.Controllers
     /// <summary>
     ///     Main Tabs presentation controller.
     /// </summary>
-    public abstract class MainTabPresentationController : PresentationController
+    public class MainTabPresentationController : PresentationController
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="core"></param>
-        protected MainTabPresentationController(Core core)
+        public MainTabPresentationController(Core core)
         {
             Core = core;
         }

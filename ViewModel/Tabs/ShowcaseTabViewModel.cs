@@ -14,10 +14,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="core">UI Core.</param>
         protected ShowcaseTabViewModel(Core core)
         {
-            if (Core == null)
-                throw new ArgumentNullException(nameof(core));
-
-            Core = core;
+            Core = core ?? throw new ArgumentNullException(nameof(core));
         }
 
         /// <summary>

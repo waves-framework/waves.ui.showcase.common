@@ -33,9 +33,11 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
-            SetDataContext(new AboutTabViewModel(Core));
+            //DataContext = new AboutTabViewModel(Core);
 
-            base.Initialize();
+            //base.Initialize();
+
+            SetDataContext(new AboutTabViewModel(Core));
         }
     }
 }
