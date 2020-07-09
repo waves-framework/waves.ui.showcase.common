@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Composition;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 using Waves.Core.Base;
@@ -11,6 +12,7 @@ namespace Waves.UI.Showcase.Common.Services
     /// <summary>
     ///     Text generator service.
     /// </summary>
+    [Export(typeof(IService))]
     public class TextGeneratorService : Service, ITextGeneratorService
     {
         private IRandomizerString _loremIpsumRandomizer;

@@ -11,6 +11,7 @@ using Waves.UI.Modality.Presentation;
 using Waves.UI.Modality.Presentation.Enums;
 using Waves.UI.Services.Interfaces;
 using Waves.UI.Showcase.Common.Presentation.ModalWindow;
+using Waves.UI.Showcase.Common.Services.Interfaces;
 
 namespace Waves.UI.Showcase.Common.ViewModel.Tabs
 {
@@ -157,7 +158,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnAddProperty(object obj)
         {
+            var service = Core.GetService<IConfigurationWindowsService>();
+            if (service == null) return;
+
             var presentation = new AddPropertyModalWindowPresentation(Core, Properties, Configuration);
+            presentation.SetView(service.GetAddPropertyPresentationView());
+
             Core.ShowModalityWindow(presentation);
         }
 
@@ -167,7 +173,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnShowProperty(object obj)
         {
+            var service = Core.GetService<IConfigurationWindowsService>();
+            if (service == null) return;
+
             var presentation = new ShowPropertyModalWindowPresentation(Core, SelectedProperty);
+            presentation.SetView(service.GetShowPropertyPresentationView());
+
             Core.ShowModalityWindow(presentation);
         }
 
@@ -177,7 +188,11 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="obj"></param>
         private void OnEditProperty(object obj)
         {
+            var service = Core.GetService<IConfigurationWindowsService>();
+            if (service == null) return;
+
             var presentation = new EditPropertyModalWindowPresentation(Core, SelectedProperty, Configuration);
+            presentation.SetView(service.GetEditPropertyPresentationView());
 
             // Hack for next exception:
             // System.Private.CoreLib: An exception was received:
