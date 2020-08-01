@@ -65,7 +65,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
 
             context.Update();
 
-            var num1 = 65536;
+            var num1 = 1024;
             var random1 = new Random();
             var points1 = new Point[num1];
 
