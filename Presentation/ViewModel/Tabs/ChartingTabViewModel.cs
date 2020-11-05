@@ -1,7 +1,6 @@
 ﻿using System;
 using Waves.Core.Base;
-using Waves.Core.Services.Interfaces;
-using Waves.Presentation.Base;
+using Waves.Core.Base.Interfaces.Services;
 using Waves.UI.Drawing.Charting.Base;
 using Waves.UI.Drawing.Charting.Base.Enums;
 using Waves.UI.Drawing.Charting.Presentation;
@@ -11,7 +10,7 @@ using Waves.UI.Drawing.Charting.ViewModel.Interfaces;
 using Waves.UI.Drawing.Services.Interfaces;
 using Waves.UI.Services.Interfaces;
 
-namespace Waves.UI.Showcase.Common.ViewModel.Tabs
+namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
 {
     /// <summary>
     ///     View model for charts tab.
@@ -22,6 +21,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         public ChartingTabViewModel(Core core) : base(core)
         {
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
+
+        /// <inheritdoc />
+        public override string Name { get; set; } = "Charting Tab View Model";
 
         /// <summary>
         ///     Gets drawing service.
@@ -29,7 +34,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         public IDrawingService DrawingService { get; private set; }
 
         /// <summary>
-        /// Gets charting service.
+        ///     Gets charting service.
         /// </summary>
         public IChartingService ChartingService { get; private set; }
 
@@ -46,21 +51,24 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <summary>
         ///     Gets drawing element presentation.
         /// </summary>
-        public IChartPresentation ChartPresentation { get; private set; }
+        public IChartPresenter ChartPresentation { get; private set; }
 
         /// <inheritdoc />
         public override void Initialize()
         {
-            DrawingService = Core.GetService<IDrawingService>();
-            ThemeService = Core.GetService<IThemeService>();
-            InputService = Core.GetService<IInputService>();
-            ChartingService = Core.GetService<IChartingService>();
-
-            ChartPresentation = new DataSetChartPresentation(DrawingService, ThemeService, InputService, ChartingService.GetChartViewFactory());
+            base.Initialize();
             
+            DrawingService = Core.GetInstance<IDrawingService>();
+            ThemeService = Core.GetInstance<IThemeService>();
+            InputService = Core.GetInstance<IInputService>();
+            ChartingService = Core.GetInstance<IChartingService>();
+
+            ChartPresentation = new DatasetChartPresentation(DrawingService, ThemeService, InputService,
+                ChartingService.GetChartViewFactory());
+
             ChartPresentation.Initialize();
 
-            var context = ChartPresentation.DataContext as IDataSetChartViewModel;
+            var context = ChartPresentation.DataContext as IDataSetChartPresenterViewModel;
             if (context == null) return;
 
             context.Update();

@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Waves.Presentation.Base;
 using Waves.UI.Commands;
 
-namespace Waves.UI.Showcase.Common.ViewModel.Tabs
+namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
 {
     /// <summary>
     ///     Progress bars tab view model.
@@ -14,6 +14,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         public ProgressBarsTabViewModel(Core core) : base(core)
         {
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
+
+        /// <inheritdoc />
+        public override string Name { get; set; } = "Progress Bars Tab View Model";
 
         /// <summary>
         ///     Gets whether first task is running.
@@ -58,6 +64,8 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
+            base.Initialize();
+            
             InitializeCommands();
         }
 

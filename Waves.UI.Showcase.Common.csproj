@@ -58,15 +58,17 @@
   <ItemGroup>
     <None Include="../../files/logo.png">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="RandomDataGenerator.Net" Version="1.0.12" />
-    <PackageReference Include="Waves.UI" Version="2020.2.1.82" />
-    <PackageReference Include="Waves.UI.Drawing" Version="2020.2.1.82" />
-    <PackageReference Include="Waves.UI.Drawing.Charting" Version="2020.2.1.82" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ui\sources\Waves.UI.Drawing.Charting\Waves.UI.Drawing.Charting.csproj" />
+    <ProjectReference Include="..\..\..\ui\sources\Waves.UI.Drawing\Waves.UI.Drawing.csproj" />
+    <ProjectReference Include="..\..\..\ui\sources\Waves.UI\Waves.UI.csproj" />
   </ItemGroup>
 
 </Project>

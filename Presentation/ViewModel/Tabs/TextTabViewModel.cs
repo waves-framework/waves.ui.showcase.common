@@ -1,7 +1,7 @@
-﻿using Waves.Presentation.Base;
+﻿using System;
 using Waves.UI.Showcase.Common.Services.Interfaces;
 
-namespace Waves.UI.Showcase.Common.ViewModel.Tabs
+namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
 {
     /// <summary>
     ///     Text tab view model.
@@ -14,6 +14,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         public TextTabViewModel(Core core) : base(core)
         {
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
+
+        /// <inheritdoc />
+        public override string Name { get; set; } = "Text Tab View Model";
 
         /// <summary>
         ///     Gets "Header 1" text.
@@ -48,7 +54,9 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
-            _textGeneratorService = Core.GetService<ITextGeneratorService>();
+            base.Initialize();
+            
+            _textGeneratorService = Core.GetInstance<ITextGeneratorService>();
 
             GenerateData();
         }

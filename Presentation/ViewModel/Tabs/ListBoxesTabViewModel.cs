@@ -1,8 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Waves.UI.Showcase.Common.Model;
 using Waves.UI.Showcase.Common.Services.Interfaces;
 
-namespace Waves.UI.Showcase.Common.ViewModel.Tabs
+namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
 {
     /// <summary>
     ///     Listboxes tab view model.
@@ -15,6 +16,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         public ListBoxesTabViewModel(Core core) : base(core)
         {
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
+
+        /// <inheritdoc />
+        public override string Name { get; set; } = "ListBoxes Tab View Model";
 
         /// <summary>
         ///     Gets or sets selected item.
@@ -29,7 +36,9 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
-            _textGeneratorService = Core.GetService<ITextGeneratorService>();
+            base.Initialize();
+            
+            _textGeneratorService = Core.GetInstance<ITextGeneratorService>();
 
             GenerateData();
         }

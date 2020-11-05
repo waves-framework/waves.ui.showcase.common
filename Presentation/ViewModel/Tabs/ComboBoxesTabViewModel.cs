@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using Waves.Presentation.Base;
+﻿using System;
+using System.Collections.ObjectModel;
 using Waves.UI.Showcase.Common.Services.Interfaces;
 
-namespace Waves.UI.Showcase.Common.ViewModel.Tabs
+namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
 {
     /// <summary>
     ///     Comboboxes tab view model.
@@ -15,6 +15,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         public ComboBoxesTabViewModel(Core core) : base(core)
         {
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
+
+        /// <inheritdoc />
+        public override string Name { get; set; } = "ComboBoxes Tab View Model";
 
         /// <summary>
         ///     Gets words collection.
@@ -24,7 +30,9 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
-            _textGeneratorService = Core.GetService<ITextGeneratorService>();
+            base.Initialize();
+            
+            _textGeneratorService = Core.GetInstance<ITextGeneratorService>();
 
             GenerateData();
         }

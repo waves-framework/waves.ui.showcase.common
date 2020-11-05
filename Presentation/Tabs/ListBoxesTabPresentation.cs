@@ -1,6 +1,7 @@
-﻿using Waves.Presentation.Interfaces;
+﻿using System;
+using Waves.Presentation.Interfaces;
 using Waves.UI.Presentation.Tabs;
-using Waves.UI.Showcase.Common.ViewModel.Tabs;
+using Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs;
 
 namespace Waves.UI.Showcase.Common.Presentation.Tabs
 {
@@ -13,9 +14,12 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         public ListBoxesTabPresentation(Core core) : base(core)
         {
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
 
         /// <inheritdoc />
-        public override string Name { get; } = "ListBoxes";
+        public override string Name { get; set; } = "ListBoxes";
 
         /// <inheritdoc />
         public override string VectorIconPathData { get; } =
@@ -23,12 +27,6 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
 
         /// <inheritdoc />
         public override double[] VectorIconThickness { get; } = new double[4];
-
-        /// <inheritdoc />
-        public override IPresentationView View { get; protected set; } 
-
-        /// <inheritdoc />
-        public override IPresentationViewModel DataContext { get; protected set;}
 
         /// <inheritdoc />
         public override void Initialize()

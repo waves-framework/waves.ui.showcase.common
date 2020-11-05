@@ -1,7 +1,7 @@
-﻿using Waves.Presentation.Base;
+﻿using System;
 using Waves.UI.Services.Interfaces;
 
-namespace Waves.UI.Showcase.Common.ViewModel.Tabs
+namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
 {
     /// <summary>
     ///     Theme tab view model.
@@ -12,6 +12,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         public ThemeTabViewModel(Core core) : base(core)
         {
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
+
+        /// <inheritdoc />
+        public override string Name { get; set; } = "Theme Tab View Model";
 
         /// <summary>
         ///     Gets theme service.
@@ -21,7 +27,9 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
-            ThemeService = Core.GetService<IThemeService>();
+            base.Initialize();
+            
+            ThemeService = Core.GetInstance<IThemeService>();
         }
     }
 }

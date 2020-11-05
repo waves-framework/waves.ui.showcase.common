@@ -1,33 +1,40 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Waves.Core.Base.Interfaces;
 using Waves.Presentation.Interfaces;
 using Waves.UI.Base.Interfaces;
 using Waves.UI.Modality.Base;
 using Waves.UI.Modality.Extensions;
 using Waves.UI.Modality.Presentation;
-using Waves.UI.Showcase.Common.ViewModel.ModalWindow;
+using Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow;
 
 namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
 {
     /// <summary>
     ///     Add property modality window presentation.
     /// </summary>
-    public class AddPropertyModalWindowPresentation : ModalWindowPresentation
+    public class AddPropertyModalWindowPresenter : ModalWindowPresenter
     {
         private readonly IConfiguration _configuration;
-        private IPresentationViewModel _dataContext;
+        private IPresenterViewModel _dataContext;
 
         private readonly ObservableCollection<IProperty> _properties;
 
         /// <summary>
         ///     Creates new instance of add property modality window action.
         /// </summary>
-        public AddPropertyModalWindowPresentation(Core core, ObservableCollection<IProperty> properties,
+        public AddPropertyModalWindowPresenter(Core core, ObservableCollection<IProperty> properties,
             IConfiguration configuration) : base(core)
         {
             _properties = properties;
             _configuration = configuration;
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
+
+        /// <inheritdoc />
+        public override string Name { get; set; } = "Add property modal windows presenter";
 
         /// <summary>
         ///     Gets configuration.
@@ -39,12 +46,6 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
 
         /// <inheritdoc />
         public override string Title => "Add property";
-
-        /// <inheritdoc />
-        public override IPresentationViewModel DataContext { get; protected set; }
-
-        /// <inheritdoc />
-        public override IPresentationView View { get; protected set; }
 
         /// <inheritdoc />
         public override void Initialize()

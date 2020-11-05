@@ -5,6 +5,7 @@ using RandomDataGenerator.Randomizers;
 using Waves.Core.Base;
 using Waves.Core.Base.Enums;
 using Waves.Core.Base.Interfaces;
+using Waves.Core.Base.Interfaces.Services;
 using Waves.UI.Showcase.Common.Services.Interfaces;
 
 namespace Waves.UI.Showcase.Common.Services
@@ -25,9 +26,11 @@ namespace Waves.UI.Showcase.Common.Services
         public override string Name { get; set; } = "Text generator service";
 
         /// <inheritdoc />
-        public override void Initialize()
+        public override void Initialize(ICore core)
         {
             if (IsInitialized) return;
+
+            Core = core;
 
             _loremIpsumRandomizer = new RandomizerTextLipsum(new FieldOptionsTextLipsum());
             _wordRandomizer = new RandomizerTextWords(new FieldOptionsTextWords {Max = 1});
@@ -39,13 +42,13 @@ namespace Waves.UI.Showcase.Common.Services
         }
 
         /// <inheritdoc />
-        public override void LoadConfiguration(IConfiguration configuration)
+        public override void LoadConfiguration()
         {
             //
         }
 
         /// <inheritdoc />
-        public override void SaveConfiguration(IConfiguration configuration)
+        public override void SaveConfiguration()
         {
             //
         }

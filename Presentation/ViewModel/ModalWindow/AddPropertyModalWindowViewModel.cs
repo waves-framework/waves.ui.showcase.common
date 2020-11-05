@@ -1,31 +1,25 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using ReactiveUI;
 using Waves.Core.Base;
 using Waves.Core.Base.Interfaces;
 using Waves.UI.Modality.Base.Interfaces;
 using Waves.UI.Modality.ViewModel;
 
-namespace Waves.UI.Showcase.Common.ViewModel.ModalWindow
+namespace Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow
 {
     /// <summary>
+    ///     Add property modality window view model.
     /// </summary>
-    public class EditPropertyModalWindowViewModel : ModalWindowPresentationViewModel
+    public class AddPropertyModalWindowViewModel : ModalWindowPresenterViewModel
     {
         private IModalWindowAction _action;
         private Type _type = typeof(int);
         private object _value;
-
-        /// <summary>
-        ///     Creates new instance of <see cref="AddPropertyModalWindowViewModel" />.
-        /// </summary>
-        public EditPropertyModalWindowViewModel(IProperty property)
-        {
-            Name = property.Name;
-            Value = property.GetValue();
-            CanBeDeleted = property.CanBeDeleted;
-            IsReadOnly = property.IsReadOnly;
-        }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
 
         /// <summary>
         ///     Gets whether property can be deleted.
@@ -40,7 +34,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.ModalWindow
         /// <summary>
         ///     Gets or sets name.
         /// </summary>
-        public string Name { get; set; } = "New property";
+        public override string Name { get; set; } = "New property";
 
         /// <summary>
         ///     Gets or sets value.
@@ -58,10 +52,10 @@ namespace Waves.UI.Showcase.Common.ViewModel.ModalWindow
                 }
                 catch (Exception e)
                 {
-                    OnMessageReceived(new Message(e, false));
+                    OnMessageReceived(this,new Message(e, false));
                 }
 
-                OnPropertyChanged();
+                this.RaiseAndSetIfChanged(ref _value, value);
             }
         }
 
@@ -86,10 +80,10 @@ namespace Waves.UI.Showcase.Common.ViewModel.ModalWindow
                 }
                 catch (Exception e)
                 {
-                    OnMessageReceived(new Message(e, false));
+                    OnMessageReceived(this,new Message(e, false));
                 }
 
-                OnPropertyChanged();
+                this.RaiseAndSetIfChanged(ref _type, value);
             }
         }
 
@@ -112,6 +106,11 @@ namespace Waves.UI.Showcase.Common.ViewModel.ModalWindow
             PropertyChanged += OnPropertyChanged;
 
             InitializeAction();
+        }
+        
+        /// <inheritdoc />
+        public override void Dispose()
+        {
         }
 
         /// <summary>
@@ -159,7 +158,11 @@ namespace Waves.UI.Showcase.Common.ViewModel.ModalWindow
 
             foreach (var action in Actions)
                 if (action.Caption == "Save")
+                {
                     _action = action;
+
+                    _action.IsEnabled = false;
+                }
         }
 
         /// <summary>

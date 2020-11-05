@@ -10,7 +10,7 @@ namespace Waves.UI.Showcase.Common.Presentation.Controllers
     /// <summary>
     ///     Main Tabs presentation controller.
     /// </summary>
-    public abstract class MainTabPresentationController : PresentationController
+    public abstract class MainTabPresentationController : PresenterController
     {
         /// <summary>
         /// Creates new instance of <see cref="MainTabPresentationController"/>.

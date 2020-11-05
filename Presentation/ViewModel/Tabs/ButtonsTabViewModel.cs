@@ -1,6 +1,6 @@
-﻿using Waves.Presentation.Base;
+﻿using System;
 
-namespace Waves.UI.Showcase.Common.ViewModel.Tabs
+namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
 {
     /// <summary>
     ///     Buttons tab view model.
@@ -11,10 +11,11 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         public ButtonsTabViewModel(Core core) : base(core)
         {
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
 
         /// <inheritdoc />
-        public override void Initialize()
-        {
-        }
+        public override string Name { get; set; } = "Buttons Tab View Model";
     }
 }

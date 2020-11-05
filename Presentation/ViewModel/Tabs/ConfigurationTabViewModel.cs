@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
 using Waves.Core.Base.Interfaces;
-using Waves.Presentation.Base;
 using Waves.UI.Commands;
 using Waves.UI.Modality.Base;
 using Waves.UI.Modality.Presentation;
@@ -13,7 +12,7 @@ using Waves.UI.Services.Interfaces;
 using Waves.UI.Showcase.Common.Presentation.ModalWindow;
 using Waves.UI.Showcase.Common.Services.Interfaces;
 
-namespace Waves.UI.Showcase.Common.ViewModel.Tabs
+namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
 {
     /// <summary>
     ///     Configuration tab view model.
@@ -26,6 +25,12 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         public ConfigurationTabViewModel(Core core) : base(core)
         {
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
+
+        /// <inheritdoc />
+        public override string Name { get; set; } = "Configuration Tab View Model";
 
         /// <summary>
         ///     Gets whether configuration is changed.
@@ -85,7 +90,9 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <inheritdoc />
         public override void Initialize()
         {
-            CollectionSynchronizationService = Core.GetService<ICollectionSynchronizationService>();
+            base.Initialize();
+            
+            CollectionSynchronizationService = Core.GetInstance<ICollectionSynchronizationService>();
 
             Configuration = (IConfiguration) Core.Configuration.Clone();
 
@@ -158,10 +165,10 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnAddProperty(object obj)
         {
-            var service = Core.GetService<IConfigurationWindowsService>();
+            var service = Core.GetInstance<IConfigurationWindowsService>();
             if (service == null) return;
 
-            var presentation = new AddPropertyModalWindowPresentation(Core, Properties, Configuration);
+            var presentation = new AddPropertyModalWindowPresenter(Core, Properties, Configuration);
             presentation.SetView(service.GetAddPropertyPresentationView());
 
             Core.ShowModalityWindow(presentation);
@@ -173,10 +180,10 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnShowProperty(object obj)
         {
-            var service = Core.GetService<IConfigurationWindowsService>();
+            var service = Core.GetInstance<IConfigurationWindowsService>();
             if (service == null) return;
 
-            var presentation = new ShowPropertyModalWindowPresentation(Core, SelectedProperty);
+            var presentation = new ShowPropertyModalWindowPresenter(Core, SelectedProperty);
             presentation.SetView(service.GetShowPropertyPresentationView());
 
             Core.ShowModalityWindow(presentation);
@@ -188,10 +195,10 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="obj"></param>
         private void OnEditProperty(object obj)
         {
-            var service = Core.GetService<IConfigurationWindowsService>();
+            var service = Core.GetInstance<IConfigurationWindowsService>();
             if (service == null) return;
 
-            var presentation = new EditPropertyModalWindowPresentation(Core, SelectedProperty, Configuration);
+            var presentation = new EditPropertyModalWindowPresenter(Core, SelectedProperty, Configuration);
             presentation.SetView(service.GetEditPropertyPresentationView());
 
             // Hack for next exception:
@@ -208,7 +215,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnRemoveProperty(object obj)
         {
-            var presentation = new MessageModalWindowPresentation(
+            var presentation = new MessageModalWindowPresenter(
                 Core,
                 "Remove property",
                 "Do you want to remove property \"" + SelectedProperty.Name + "\"?",
@@ -235,7 +242,7 @@ namespace Waves.UI.Showcase.Common.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnSaveAll(object obj)
         {
-            var presentation = new MessageModalWindowPresentation(
+            var presentation = new MessageModalWindowPresenter(
                 Core,
                 "Save configuration",
                 "Do you really want to save configuration?",

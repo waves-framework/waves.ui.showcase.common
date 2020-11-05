@@ -1,39 +1,40 @@
-﻿using Waves.Core.Base.Interfaces;
+﻿using System;
+using Waves.Core.Base.Interfaces;
 using Waves.Presentation.Interfaces;
 using Waves.UI.Base.Interfaces;
 using Waves.UI.Modality.Base;
 using Waves.UI.Modality.Extensions;
 using Waves.UI.Modality.Presentation;
-using Waves.UI.Showcase.Common.ViewModel.ModalWindow;
+using Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow;
 
 namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
 {
     /// <summary>
     ///     Show property presentation.
     /// </summary>
-    public class ShowPropertyModalWindowPresentation : ModalWindowPresentation
+    public class ShowPropertyModalWindowPresenter : ModalWindowPresenter
     {
-        private IPresentationViewModel _dataContext;
+        private IPresenterViewModel _dataContext;
 
         /// <summary>
         ///     Creates new instance of show property presentation.
         /// </summary>
-        public ShowPropertyModalWindowPresentation(Core core, IProperty property) : base(core)
+        public ShowPropertyModalWindowPresenter(Core core, IProperty property) : base(core)
         {
             Property = property;
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
+
+        /// <inheritdoc />
+        public override string Name { get; set; } = "Show Property Modal Window Presenter";
 
         /// <inheritdoc />
         public override IVectorImage Icon { get; }
 
         /// <inheritdoc />
         public override string Title { get; } = "Show property";
-
-        /// <inheritdoc />
-        public override IPresentationViewModel DataContext { get; protected set; }
-
-        /// <inheritdoc />
-        public override IPresentationView View { get; protected set; }
 
         /// <summary>
         ///     Gets property.

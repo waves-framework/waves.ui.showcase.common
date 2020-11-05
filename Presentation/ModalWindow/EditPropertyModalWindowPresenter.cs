@@ -1,43 +1,44 @@
-﻿using Waves.Core.Base.Interfaces;
+﻿using System;
+using Waves.Core.Base.Interfaces;
 using Waves.Presentation.Interfaces;
 using Waves.UI.Base.Interfaces;
 using Waves.UI.Modality.Base;
 using Waves.UI.Modality.Extensions;
 using Waves.UI.Modality.Presentation;
-using Waves.UI.Showcase.Common.ViewModel.ModalWindow;
+using Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow;
 
 namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
 {
     /// <summary>
     ///     Edit property presentation.
     /// </summary>
-    public class EditPropertyModalWindowPresentation : ModalWindowPresentation
+    public class EditPropertyModalWindowPresenter : ModalWindowPresenter
     {
         private readonly IConfiguration _configuration;
 
         private readonly IProperty _property;
-        private IPresentationViewModel _dataContext;
+        private IPresenterViewModel _dataContext;
 
         /// <summary>
         ///     Creates new instance of add property modality window action.
         /// </summary>
-        public EditPropertyModalWindowPresentation(Core core, IProperty property, IConfiguration configuration) : base(core)
+        public EditPropertyModalWindowPresenter(Core core, IProperty property, IConfiguration configuration) : base(core)
         {
             _property = property;
             _configuration = configuration;
         }
+        
+        /// <inheritdoc />
+        public override Guid Id { get; } = Guid.NewGuid();
+
+        /// <inheritdoc />
+        public override string Name { get; set; } = "Edit Property Modal Window Presenter";
 
         /// <inheritdoc />
         public override IVectorImage Icon { get; }
 
         /// <inheritdoc />
         public override string Title => "Edit property";
-
-        /// <inheritdoc />
-        public override IPresentationViewModel DataContext { get; protected set; }
-
-        /// <inheritdoc />
-        public override IPresentationView View { get; protected set; }
 
         /// <inheritdoc />
         public override void Initialize()

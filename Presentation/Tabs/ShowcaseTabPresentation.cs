@@ -1,14 +1,13 @@
 ﻿using System;
 using Waves.Presentation.Interfaces;
 using Waves.UI.Presentation.Tabs;
-using Waves.UI.Showcase.Common.ViewModel.Tabs;
 
 namespace Waves.UI.Showcase.Common.Presentation.Tabs
 {
     /// <summary>
     /// Showcase tab presentation.
     /// </summary>
-    public abstract class ShowcaseTabPresentation : TabPresentation
+    public abstract class ShowcaseTabPresentation : TabPresenter
     {
         /// <summary>
         /// Creates new instance of <see cref="ShowcaseTabPresentation"/>.
@@ -22,7 +21,7 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         /// <summary>
         /// Instance of UI core.
         /// </summary>
-        public Core Core { get; private set; }
+        protected Core Core { get; private set; }
 
         /// <inheritdoc />
         public abstract override string Name { get; }
@@ -32,11 +31,5 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
 
         /// <inheritdoc />
         public abstract override double[] VectorIconThickness { get; }
-
-        /// <inheritdoc />
-        public abstract override IPresentationView View { get; }
-
-        /// <inheritdoc />
-        public abstract override IPresentationViewModel DataContext { get; }
     }
 }
