@@ -14,15 +14,19 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
     /// </summary>
     public class EditPropertyModalWindowPresenter : ModalWindowPresenter
     {
-        private readonly IConfiguration _configuration;
+        private readonly IWavesConfiguration _configuration;
 
-        private readonly IProperty _property;
+        private readonly IWavesProperty _property;
         private IPresenterViewModel _dataContext;
 
         /// <summary>
         ///     Creates new instance of add property modality window action.
         /// </summary>
-        public EditPropertyModalWindowPresenter(Core core, IProperty property, IConfiguration configuration) : base(core)
+        public EditPropertyModalWindowPresenter(
+            IWavesCore core, 
+            IWavesProperty property, 
+            IWavesConfiguration configuration) 
+            : base(core)
         {
             _property = property;
             _configuration = configuration;
@@ -43,7 +47,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// <inheritdoc />
         public override void Initialize()
         {
-            _dataContext = new EditPropertyModalWindowViewModel(_property);
+            _dataContext = new EditPropertyModalWindowViewModel(Core,_property);
 
             InitializeView();
             InitializeActions();
@@ -65,7 +69,10 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// </summary>
         protected void InitializeActions()
         {
-            this.AddAction(ModalWindowAction.Close(delegate { Core.HideModalityWindow(this); }));
+            var core = Core as Waves.UI.Core;
+            if (core == null) return;
+            
+            this.AddAction(ModalWindowAction.Close(delegate { core.HideModalityWindow(this); }));
             this.AddAction(ModalWindowAction.Save(delegate
             {
                 var context = _dataContext as EditPropertyModalWindowViewModel;
@@ -75,7 +82,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
 
                 _property.SetValue(property.GetValue());
 
-                Core.HideModalityWindow(this);
+                core.HideModalityWindow(this);
             }));
         }
     }

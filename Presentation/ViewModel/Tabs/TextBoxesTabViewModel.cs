@@ -1,4 +1,5 @@
 ﻿using System;
+using Waves.Core.Base.Interfaces;
 using Waves.UI.Showcase.Common.Services.Interfaces;
 
 namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
@@ -12,7 +13,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
 
 
         /// <inheritdoc />
-        public TextBoxesTabViewModel(Core core) : base(core)
+        public TextBoxesTabViewModel(IWavesCore core) : base(core)
         {
         }
         

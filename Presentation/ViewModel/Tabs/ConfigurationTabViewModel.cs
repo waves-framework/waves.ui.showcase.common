@@ -22,7 +22,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         private readonly object _locker = new object();
 
         /// <inheritdoc />
-        public ConfigurationTabViewModel(Core core) : base(core)
+        public ConfigurationTabViewModel(IWavesCore core) : base(core)
         {
         }
         
@@ -40,17 +40,17 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// <summary>
         ///     Gets or sets selected property.
         /// </summary>
-        public IProperty SelectedProperty { get; set; }
+        public IWavesProperty SelectedProperty { get; set; }
 
         /// <summary>
         ///     Gets collection of propeties.
         /// </summary>
-        public ObservableCollection<IProperty> Properties { get; } = new ObservableCollection<IProperty>();
+        public ObservableCollection<IWavesProperty> Properties { get; } = new ObservableCollection<IWavesProperty>();
 
         /// <summary>
         ///     Gets core configuration.
         /// </summary>
-        public IConfiguration Configuration { get; private set; }
+        public IWavesConfiguration Configuration { get; private set; }
 
         /// <summary>
         /// Gets collection synchronization service.
@@ -94,7 +94,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
             
             CollectionSynchronizationService = Core.GetInstance<ICollectionSynchronizationService>();
 
-            Configuration = (IConfiguration) Core.Configuration.Clone();
+            Configuration = (IWavesConfiguration) Core.Configuration.Clone();
 
             InitializeCollection();
             SubscribeEvents();
@@ -165,13 +165,16 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnAddProperty(object obj)
         {
+            var core = Core as Waves.UI.Core;
+            if (core == null) return;
+            
             var service = Core.GetInstance<IConfigurationWindowsService>();
             if (service == null) return;
 
             var presentation = new AddPropertyModalWindowPresenter(Core, Properties, Configuration);
             presentation.SetView(service.GetAddPropertyPresentationView());
 
-            Core.ShowModalityWindow(presentation);
+            core.ShowModalityWindow(presentation);
         }
 
         /// <summary>
@@ -180,13 +183,16 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnShowProperty(object obj)
         {
+            var core = Core as Waves.UI.Core;
+            if (core == null) return;
+            
             var service = Core.GetInstance<IConfigurationWindowsService>();
             if (service == null) return;
 
             var presentation = new ShowPropertyModalWindowPresenter(Core, SelectedProperty);
             presentation.SetView(service.GetShowPropertyPresentationView());
 
-            Core.ShowModalityWindow(presentation);
+            core.ShowModalityWindow(presentation);
         }
 
         /// <summary>
@@ -195,6 +201,9 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// <param name="obj"></param>
         private void OnEditProperty(object obj)
         {
+            var core = Core as Waves.UI.Core;
+            if (core == null) return;
+            
             var service = Core.GetInstance<IConfigurationWindowsService>();
             if (service == null) return;
 
@@ -206,7 +215,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
             // An item with the same key has already been added. Key: System.Windows.Controls.ItemsControl+ItemInfo.
             SelectedProperty = null;
 
-            Core.ShowModalityWindow(presentation);
+            core.ShowModalityWindow(presentation);
         }
 
         /// <summary>
@@ -215,6 +224,9 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnRemoveProperty(object obj)
         {
+            var core = Core as Waves.UI.Core;
+            if (core == null) return;
+            
             var presentation = new MessageModalWindowPresenter(
                 Core,
                 "Remove property",
@@ -228,12 +240,12 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
 
                     Properties.Remove(SelectedProperty);
 
-                    Core.HideModalityWindow(presentation);
-                }), new Action(() => { Core.HideModalityWindow(presentation); }));
+                    core.HideModalityWindow(presentation);
+                }), new Action(() => { core.HideModalityWindow(presentation); }));
 
             presentation.InitializeActions(actions);
 
-            Core.ShowModalityWindow(presentation);
+            core.ShowModalityWindow(presentation);
         }
 
         /// <summary>
@@ -242,6 +254,9 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// <param name="obj">Parameter.</param>
         private void OnSaveAll(object obj)
         {
+            var core = Core as Waves.UI.Core;
+            if (core == null) return;
+            
             var presentation = new MessageModalWindowPresenter(
                 Core,
                 "Save configuration",
@@ -253,12 +268,12 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
                 {
                     Configuration.RewriteConfiguration(Configuration);
 
-                    Core.HideModalityWindow(presentation);
-                }), new Action(() => { Core.HideModalityWindow(presentation); }));
+                    core.HideModalityWindow(presentation);
+                }), new Action(() => { core.HideModalityWindow(presentation); }));
 
             presentation.InitializeActions(actions);
 
-            Core.ShowModalityWindow(presentation);
+            core.ShowModalityWindow(presentation);
         }
 
         /// <summary>

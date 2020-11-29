@@ -5,7 +5,7 @@ namespace Waves.UI.Showcase.Common.Model
     /// <summary>
     ///     Item.
     /// </summary>
-    public class Item : ObservableObject
+    public class Item : WavesObservableObject
     {
         /// <summary>
         ///     Creates new instance of Item.

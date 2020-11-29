@@ -1,5 +1,8 @@
 ﻿using System;
 using ReactiveUI.Fody.Helpers;
+using Waves.Core.Base;
+using Waves.Core.Base.Enums;
+using Waves.Core.Base.Interfaces;
 using Waves.Core.Base.Interfaces.Services;
 using Waves.Presentation.Base;
 
@@ -14,17 +17,10 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// Creates new instance of <see cref="ShowcaseTabViewModel"/>.
         /// </summary>
         /// <param name="core">UI Core.</param>
-        protected ShowcaseTabViewModel(Core core)
+        protected ShowcaseTabViewModel(IWavesCore core) : base(core)
         {
-            Core = core ?? throw new ArgumentNullException(nameof(core));
         }
 
-        /// <summary>
-        /// Instance of UI core.
-        /// </summary>
-        [Reactive]
-        public Core Core { get; private set; }
-        
         /// <summary>
         ///     Gets logging service.
         /// </summary>
@@ -36,7 +32,33 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// </summary>
         public override void Initialize()
         {
-            InitializeServices();
+            try
+            {
+                InitializeServices();
+
+                IsInitialized = true;
+                
+                var message = new WavesMessage(
+                    "View model initialization",
+                    $"Showcase tab view model {Name} ({Id}) was initialized.",
+                    Name,
+                    WavesMessageType.Information);
+
+                OnMessageReceived(this, message);
+                
+                IsInitialized = true;
+            }
+            catch (Exception e)
+            {
+                var message = new WavesMessage(
+                    "View model initialization",
+                    $"Error occured while initialization {Name} ({Id})",
+                    Name,
+                    e,
+                    false);
+
+                OnMessageReceived(this, message);
+            }
         }
         
         /// <inheritdoc />

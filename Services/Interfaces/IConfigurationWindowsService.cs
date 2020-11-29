@@ -7,7 +7,7 @@ namespace Waves.UI.Showcase.Common.Services.Interfaces
     /// <summary>
     /// Interface for configuration windows service.
     /// </summary>
-    public interface IConfigurationWindowsService : IService
+    public interface IConfigurationWindowsService : IWavesService
     {
         /// <summary>
         /// Gets "Add property" presentation view.

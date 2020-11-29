@@ -1,4 +1,5 @@
 ﻿using System;
+using Waves.Core.Base.Interfaces;
 using Waves.UI.Showcase.Common.Services.Interfaces;
 
 namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
@@ -11,7 +12,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         private ITextGeneratorService _textGeneratorService;
 
         /// <inheritdoc />
-        public TextTabViewModel(Core core) : base(core)
+        public TextTabViewModel(IWavesCore core) : base(core)
         {
         }
         

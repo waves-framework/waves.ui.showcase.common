@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Waves.Core.Base.Interfaces;
 using Waves.UI.Commands;
 
 namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
@@ -11,7 +12,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
     public class ProgressBarsTabViewModel : ShowcaseTabViewModel
     {
         /// <inheritdoc />
-        public ProgressBarsTabViewModel(Core core) : base(core)
+        public ProgressBarsTabViewModel(IWavesCore core) : base(core)
         {
         }
         

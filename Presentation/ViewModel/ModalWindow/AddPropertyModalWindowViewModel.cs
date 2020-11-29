@@ -18,6 +18,14 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow
         private Type _type = typeof(int);
         private object _value;
         
+        /// <summary>
+        /// Creates new instance of <see cref="AddPropertyModalWindowViewModel"/>
+        /// </summary>
+        /// <param name="core"></param>
+        public AddPropertyModalWindowViewModel(IWavesCore core) : base(core)
+        {
+        }
+        
         /// <inheritdoc />
         public override Guid Id { get; } = Guid.NewGuid();
 
@@ -52,7 +60,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow
                 }
                 catch (Exception e)
                 {
-                    OnMessageReceived(this,new Message(e, false));
+                    OnMessageReceived(this,new WavesMessage(e, false));
                 }
 
                 this.RaiseAndSetIfChanged(ref _value, value);
@@ -80,7 +88,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow
                 }
                 catch (Exception e)
                 {
-                    OnMessageReceived(this,new Message(e, false));
+                    OnMessageReceived(this,new WavesMessage(e, false));
                 }
 
                 this.RaiseAndSetIfChanged(ref _type, value);
@@ -117,11 +125,11 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow
         ///     Gets result property.
         /// </summary>
         /// <returns>Property.</returns>
-        public IProperty GetResultProperty()
+        public IWavesProperty GetResultProperty()
         {
-            var type = typeof(Property<>).MakeGenericType(Type);
+            var type = typeof(WavesProperty<>).MakeGenericType(Type);
             var args = new[] {Name, ConvertedValue, IsReadOnly, CanBeDeleted};
-            var property = (IProperty) Activator.CreateInstance(type, args);
+            var property = (IWavesProperty) Activator.CreateInstance(type, args);
 
             return property;
         }

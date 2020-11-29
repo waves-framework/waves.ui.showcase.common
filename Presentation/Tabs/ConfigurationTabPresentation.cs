@@ -1,4 +1,5 @@
 ﻿using System;
+using Waves.Core.Base.Interfaces;
 using Waves.Presentation.Interfaces;
 using Waves.UI.Presentation.Tabs;
 using Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs;
@@ -11,7 +12,7 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
     public class ConfigurationTabPresentation : ShowcaseTabPresentation
     {
         /// <inheritdoc />
-        public ConfigurationTabPresentation(Core core) : base(core)
+        public ConfigurationTabPresentation(IWavesCore core) : base(core)
         {
         }
         

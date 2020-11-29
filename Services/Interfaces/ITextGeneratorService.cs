@@ -6,7 +6,7 @@ namespace Waves.UI.Showcase.Common.Services.Interfaces
     /// <summary>
     ///     Interface for text generator.
     /// </summary>
-    public interface ITextGeneratorService : IService
+    public interface ITextGeneratorService : IWavesService
     {
         /// <summary>
         ///     Generates text.

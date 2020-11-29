@@ -13,8 +13,8 @@ namespace Waves.UI.Showcase.Common.Services
     /// <summary>
     ///     Text generator service.
     /// </summary>
-    [Export(typeof(IService))]
-    public class TextGeneratorService : Service, ITextGeneratorService
+    [Export(typeof(IWavesService))]
+    public class TextGeneratorService : WavesService, ITextGeneratorService
     {
         private IRandomizerString _loremIpsumRandomizer;
         private IRandomizerString _wordRandomizer;
@@ -26,7 +26,7 @@ namespace Waves.UI.Showcase.Common.Services
         public override string Name { get; set; } = "Text generator service";
 
         /// <inheritdoc />
-        public override void Initialize(ICore core)
+        public override void Initialize(IWavesCore core)
         {
             if (IsInitialized) return;
 
@@ -36,7 +36,7 @@ namespace Waves.UI.Showcase.Common.Services
             _wordRandomizer = new RandomizerTextWords(new FieldOptionsTextWords {Max = 1});
 
             OnMessageReceived(this,
-                new Message("Initialization", "Service was initialized.", Name, MessageType.Information));
+                new WavesMessage("Initialization", "Service was initialized.", Name, WavesMessageType.Information));
 
             IsInitialized = true;
         }

@@ -18,14 +18,16 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow
         private object _value;
 
         /// <summary>
-        ///     Creates new instance of <see cref="AddPropertyModalWindowViewModel" />.
+        /// Creates new instance of <see cref="EditPropertyModalWindowViewModel"/>
         /// </summary>
-        public EditPropertyModalWindowViewModel(IProperty property)
+        /// <param name="core"></param>
+        /// <param name="property">Property.</param>
+        public EditPropertyModalWindowViewModel(IWavesCore core, IWavesProperty property) : base(core)
         {
             Name = property.Name;
             Value = property.GetValue();
         }
-        
+
         /// <inheritdoc />
         public override Guid Id { get; } = Guid.NewGuid();
 
@@ -60,7 +62,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow
                 }
                 catch (Exception e)
                 {
-                    OnMessageReceived(this,new Message(e, false));
+                    OnMessageReceived(this,new WavesMessage(e, false));
                 }
 
                 this.RaiseAndSetIfChanged(ref _value, value);
@@ -88,7 +90,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow
                 }
                 catch (Exception e)
                 {
-                    OnMessageReceived(this,new Message(e, false));
+                    OnMessageReceived(this,new WavesMessage(e, false));
                 }
 
                 this.RaiseAndSetIfChanged(ref _type, value);
@@ -125,11 +127,11 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow
         ///     Gets result property.
         /// </summary>
         /// <returns>Property.</returns>
-        public IProperty GetResultProperty()
+        public IWavesProperty GetResultProperty()
         {
-            var type = typeof(Property<>).MakeGenericType(Type);
+            var type = typeof(WavesProperty<>).MakeGenericType(Type);
             var args = new[] {Name, ConvertedValue, IsReadOnly, CanBeDeleted};
-            var property = (IProperty) Activator.CreateInstance(type, args);
+            var property = (IWavesProperty) Activator.CreateInstance(type, args);
 
             return property;
         }

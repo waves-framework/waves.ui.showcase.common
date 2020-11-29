@@ -1,13 +1,20 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Waves.Core.Base;
+using Waves.Core.Base.Interfaces;
 using Waves.Core.Base.Interfaces.Services;
+using Waves.UI.Drawing.Base;
 using Waves.UI.Drawing.Charting.Base;
 using Waves.UI.Drawing.Charting.Base.Enums;
 using Waves.UI.Drawing.Charting.Presentation;
 using Waves.UI.Drawing.Charting.Presentation.Interfaces;
 using Waves.UI.Drawing.Charting.Services.Interfaces;
 using Waves.UI.Drawing.Charting.ViewModel.Interfaces;
+using Waves.UI.Drawing.Presentation;
+using Waves.UI.Drawing.Presentation.Interfaces;
 using Waves.UI.Drawing.Services.Interfaces;
+using Waves.UI.Drawing.ViewModel.Interfaces;
 using Waves.UI.Services.Interfaces;
 
 namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
@@ -18,7 +25,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
     public class ChartingTabViewModel : ShowcaseTabViewModel
     {
         /// <inheritdoc />
-        public ChartingTabViewModel(Core core) : base(core)
+        public ChartingTabViewModel(IWavesCore core) : base(core)
         {
         }
         
@@ -51,44 +58,113 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// <summary>
         ///     Gets drawing element presentation.
         /// </summary>
-        public IChartPresenter ChartPresentation { get; private set; }
+        public IDrawingElementPresenter DrawingElementPresenter { get; private set; }
 
         /// <inheritdoc />
         public override void Initialize()
         {
-            base.Initialize();
+            try
+            {
+                base.Initialize();
             
-            DrawingService = Core.GetInstance<IDrawingService>();
-            ThemeService = Core.GetInstance<IThemeService>();
-            InputService = Core.GetInstance<IInputService>();
-            ChartingService = Core.GetInstance<IChartingService>();
+                DrawingService = Core.GetInstance<IDrawingService>();
+                ThemeService = Core.GetInstance<IThemeService>();
+                InputService = Core.GetInstance<IInputService>();
+                ChartingService = Core.GetInstance<IChartingService>();
 
-            ChartPresentation = new DatasetChartPresentation(DrawingService, ThemeService, InputService,
-                ChartingService.GetChartViewFactory());
+                // DrawingElementPresenter = new DrawingElementPresenter(Core, DrawingService, InputService);
+                // DrawingElementPresenter.Initialize();
+                //
+                // var context = DrawingElementPresenter.DataContext as IDrawingElementPresenterViewModel;
+                // if (context == null)
+                //     return;
+                //
+                // var obj = new Line()
+                // {
+                //     StrokeThickness = 1,
+                //     Stroke = WavesColor.Black,
+                //     Point1 = new WavesPoint(0, 0),
+                //     Point2 = new WavesPoint(100, 100)
+                // };
+                //
+                // context.AddDrawingObject(obj);
 
-            ChartPresentation.Initialize();
+                // var task = new Task(() =>
+                // {
+                //     do
+                //     {
+                //         context.RemoveDrawingObject(obj);
+                //         
+                //         obj.Stroke = WavesColor.Random();
+                //         
+                //         context.AddDrawingObject(obj);
+                //         
+                //         context.Update();
+                //         
+                //         Thread.Sleep(50);
+                //         
+                //     } while (true);
+                // });
+                // task.Start();
+                
 
-            var context = ChartPresentation.DataContext as IDataSetChartPresenterViewModel;
-            if (context == null) return;
+                DrawingElementPresenter = new DatasetChartPresenter(
+                    Core,
+                    ChartingService.GetChartViewFactory());
+                
+                DrawingElementPresenter.MessageReceived += OnMessageReceived;
+                
+                DrawingElementPresenter.Initialize();
+                
+                var context = DrawingElementPresenter.DataContext as IDataSetChartPresenterViewModel;
+                if (context == null) return;
+                
+                context.Update();
+                
+                var num1 = 2048;
+                var random1 = new Random();
+                var points1 = new WavesPoint[num1];
+                
+                for (var i = 0; i < num1; i++)
+                {
+                    points1[i].X = i / (float) num1;
+                    points1[i].Y = (float) random1.NextDouble() - 0.5f;
+                }
+                
+                var dataSet1 = new DataSet(points1)
+                {
+                    Color = WavesColor.Red,
+                    Type = DataSetType.Line, Opacity = 0.75f
+                };
+                
+                context.AddDataSet(dataSet1);
 
-            context.Update();
+                var task = new Task(delegate
+                {
+                    do
+                    {
+                        points1 = new WavesPoint[num1];
+                
+                        for (var i = 0; i < num1; i++)
+                        {
+                            points1[i].X = i / (float) num1;
+                            points1[i].Y = (float) random1.NextDouble() - 0.5f;
+                        }
+                    
+                        context.UpdateDataSet(0, points1);
+                        
+                        Thread.Sleep(32);
+                        
+                    } while (true);
+                });
+                //task.Start();
 
-            var num1 = 1024;
-            var random1 = new Random();
-            var points1 = new Point[num1];
-
-            for (var i = 0; i < num1; i++)
-            {
-                points1[i].X = i / (float) num1;
-                points1[i].Y = (float) random1.NextDouble() - 0.5f;
             }
-
-            var dataSet1 = new DataSet(points1)
+            catch (Exception e)
             {
-                Color = ThemeService.SelectedTheme.MiscellaneousColorSet.GetColor("Success-Color"),
-                Type = DataSetType.BarWithEnvelope, Opacity = 0.75f
-            };
-            context.AddDataSet(dataSet1);
+                Console.WriteLine(e);
+                throw;
+            }
 
             //var num2 = 65536;
             //var random2 = new Random();

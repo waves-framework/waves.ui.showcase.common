@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Waves.Core.Base.Interfaces;
 using Waves.UI.Showcase.Common.Model;
 using Waves.UI.Showcase.Common.Services.Interfaces;
 
@@ -13,7 +14,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         private ITextGeneratorService _textGeneratorService;
 
         /// <inheritdoc />
-        public ListBoxesTabViewModel(Core core) : base(core)
+        public ListBoxesTabViewModel(IWavesCore core) : base(core)
         {
         }
         

@@ -19,7 +19,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// <summary>
         ///     Creates new instance of show property presentation.
         /// </summary>
-        public ShowPropertyModalWindowPresenter(Core core, IProperty property) : base(core)
+        public ShowPropertyModalWindowPresenter(IWavesCore core, IWavesProperty property) : base(core)
         {
             Property = property;
         }
@@ -39,7 +39,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// <summary>
         ///     Gets property.
         /// </summary>
-        public IProperty Property { get; }
+        public IWavesProperty Property { get; }
 
         /// <inheritdoc />
         public override void Initialize()
@@ -47,7 +47,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
             InitializeView();
             InitializeActions();
 
-            _dataContext = new ShowPropertyModalWindowViewModel(Property);
+            _dataContext = new ShowPropertyModalWindowViewModel(Core,Property);
 
             base.Initialize();
         }
@@ -66,7 +66,10 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// </summary>
         protected void InitializeActions()
         {
-            this.AddAction(ModalWindowAction.Close(delegate { Core.HideModalityWindow(this); }));
+            var core = Core as Waves.UI.Core;
+            if (core == null) return;
+            
+            this.AddAction(ModalWindowAction.Close(delegate { core.HideModalityWindow(this); }));
         }
     }
 }

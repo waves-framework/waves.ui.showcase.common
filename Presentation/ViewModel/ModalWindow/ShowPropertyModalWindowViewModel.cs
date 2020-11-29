@@ -12,7 +12,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow
         /// <summary>
         ///     Creates new instance of <see cref="ShowPropertyModalWindowViewModel" />.
         /// </summary>
-        public ShowPropertyModalWindowViewModel(IProperty property)
+        public ShowPropertyModalWindowViewModel(IWavesCore core, IWavesProperty property) : base(core)
         {
             Property = property;
         }
@@ -25,7 +25,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.ModalWindow
         /// <summary>
         ///     Gets  property.
         /// </summary>
-        public IProperty Property { get; }
+        public IWavesProperty Property { get; }
 
         /// <inheritdoc />
         public override void Initialize()

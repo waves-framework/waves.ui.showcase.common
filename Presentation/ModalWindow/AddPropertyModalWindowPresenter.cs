@@ -15,16 +15,19 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
     /// </summary>
     public class AddPropertyModalWindowPresenter : ModalWindowPresenter
     {
-        private readonly IConfiguration _configuration;
+        private readonly IWavesConfiguration _configuration;
         private IPresenterViewModel _dataContext;
 
-        private readonly ObservableCollection<IProperty> _properties;
+        private readonly ObservableCollection<IWavesProperty> _properties;
 
         /// <summary>
         ///     Creates new instance of add property modality window action.
         /// </summary>
-        public AddPropertyModalWindowPresenter(Core core, ObservableCollection<IProperty> properties,
-            IConfiguration configuration) : base(core)
+        public AddPropertyModalWindowPresenter(
+            IWavesCore core, 
+            ObservableCollection<IWavesProperty> properties,
+            IWavesConfiguration configuration) 
+            : base(core)
         {
             _properties = properties;
             _configuration = configuration;
@@ -39,7 +42,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// <summary>
         ///     Gets configuration.
         /// </summary>
-        public IConfiguration Configuration { get; private set; }
+        public IWavesConfiguration Configuration { get; private set; }
 
         /// <inheritdoc />
         public override IVectorImage Icon { get; }
@@ -53,7 +56,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
             InitializeView();
             InitializeActions();
 
-            _dataContext = new AddPropertyModalWindowViewModel();
+            _dataContext = new AddPropertyModalWindowViewModel(Core);
 
             base.Initialize();
         }
@@ -72,7 +75,10 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
         /// </summary>
         protected void InitializeActions()
         {
-            this.AddAction(ModalWindowAction.Close(delegate { Core.HideModalityWindow(this); }));
+            var core = Core as Waves.UI.Core;
+            if (core == null) return;
+            
+            this.AddAction(ModalWindowAction.Close(delegate { core.HideModalityWindow(this); }));
 
             this.AddAction(ModalWindowAction.Save(delegate
             {
@@ -85,7 +91,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ModalWindow
 
                 _properties.Add(property);
 
-                Core.HideModalityWindow(this);
+                core.HideModalityWindow(this);
             }));
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Waves.Core.Base.Interfaces;
 using Waves.Presentation.Interfaces;
 using Waves.UI.Presentation.Tabs;
 
@@ -13,15 +14,9 @@ namespace Waves.UI.Showcase.Common.Presentation.Tabs
         /// Creates new instance of <see cref="ShowcaseTabPresentation"/>.
         /// </summary>
         /// <param name="core">UI Core.</param>
-        protected ShowcaseTabPresentation(Core core)
+        protected ShowcaseTabPresentation(IWavesCore core) : base(core)
         {
-            Core = core ?? throw new ArgumentNullException(nameof(core));
         }
-
-        /// <summary>
-        /// Instance of UI core.
-        /// </summary>
-        protected Core Core { get; private set; }
 
         /// <inheritdoc />
         public abstract override string Name { get; }

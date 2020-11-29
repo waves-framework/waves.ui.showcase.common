@@ -13,7 +13,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
     public class CoreTabViewModel : ShowcaseTabViewModel
     {
         /// <inheritdoc />
-        public CoreTabViewModel(Core core) : base(core)
+        public CoreTabViewModel(IWavesCore core) : base(core)
         {
         }
         
@@ -28,13 +28,13 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// Gets collection of messages.
         /// </summary>
         [Reactive]
-        public ObservableCollection<IMessageObject> Messages { get; protected set; } 
-            = new ObservableCollection<IMessageObject>();
+        public ObservableCollection<IWavesMessageObject> Messages { get; protected set; } 
+            = new ObservableCollection<IWavesMessageObject>();
 
         /// <inheritdoc />
         public override void Initialize()
         {
-            Messages.Add(new Message("","","", MessageType.Error));
+            Messages.Add(new WavesMessage("","","", WavesMessageType.Error));
             
             base.Initialize();
         }
