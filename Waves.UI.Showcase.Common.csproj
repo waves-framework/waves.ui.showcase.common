@@ -63,12 +63,13 @@
 
   <ItemGroup>
     <PackageReference Include="RandomDataGenerator.Net" Version="1.0.12" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\ui\sources\Waves.UI.Drawing.Charting\Waves.UI.Drawing.Charting.csproj" />
-    <ProjectReference Include="..\..\..\ui\sources\Waves.UI.Drawing\Waves.UI.Drawing.csproj" />
-    <ProjectReference Include="..\..\..\ui\sources\Waves.UI\Waves.UI.csproj" />
+    <PackageReference Include="Waves.Core.Service.Container.Autofac" Version="2021.1.1-preview1" />
+    <PackageReference Include="Waves.Core.Service.Input" Version="2021.1.1-preview1" />
+    <PackageReference Include="Waves.Core.Service.Logging.NLog" Version="2021.1.1-preview1" />
+    <PackageReference Include="Waves.Core.Service.Native" Version="2021.1.1-preview1" />
+    <PackageReference Include="Waves.UI" Version="2021.1.1-preview1" />
+    <PackageReference Include="Waves.UI.Drawing" Version="2021.1.1-preview1" />
+    <PackageReference Include="Waves.UI.Drawing.Charting" Version="2021.1.1-preview1" />
   </ItemGroup>
 
 </Project>
