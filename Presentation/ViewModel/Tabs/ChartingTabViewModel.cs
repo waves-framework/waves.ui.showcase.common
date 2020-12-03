@@ -121,7 +121,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
                 
                 context.Update();
                 
-                var num1 = 2048;
+                var num1 = 128000 * 2;
                 var random1 = new Random();
                 var points1 = new WavesPoint[num1];
                 
@@ -133,7 +133,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
                 
                 var dataSet1 = new DataSet(points1)
                 {
-                    Color = WavesColor.Red,
+                    // Color = WavesColor.Red,
                     Type = DataSetType.Line, Opacity = 0.75f
                 };
                 
@@ -153,11 +153,11 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
                     
                         context.UpdateDataSet(0, points1);
                         
-                        Thread.Sleep(32);
+                        Thread.Sleep(64);
                         
                     } while (true);
                 });
-                //task.Start();
+                task.Start();
 
             }
             catch (Exception e)
