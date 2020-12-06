@@ -72,4 +72,15 @@
     <PackageReference Include="Waves.UI.Drawing.Charting" Version="2021.1.1-preview1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\core\sources\Waves.Core.Service.Container.Autofac\Waves.Core.Service.Container.Autofac.csproj" />
+    <ProjectReference Include="..\..\..\core\sources\Waves.Core.Service.Input\Waves.Core.Service.Input.csproj" />
+    <ProjectReference Include="..\..\..\core\sources\Waves.Core.Service.Logging.NLog\Waves.Core.Service.Logging.NLog.csproj" />
+    <ProjectReference Include="..\..\..\core\sources\Waves.Core.Service.Native\Waves.Core.Service.Native.csproj" />
+    <ProjectReference Include="..\..\..\ui\sources\Waves.UI.Drawing.Charting\Waves.UI.Drawing.Charting.csproj" />
+    <ProjectReference Include="..\..\..\ui\sources\Waves.UI.Drawing\Waves.UI.Drawing.csproj" />
+    <ProjectReference Include="..\..\..\ui\sources\Waves.UI\Waves.UI.csproj" />
+    <ProjectReference Include="..\Waves.UI.WPF\Waves.UI.WPF.csproj" />
+  </ItemGroup>
+
 </Project>
