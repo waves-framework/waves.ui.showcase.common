@@ -9,6 +9,7 @@ using ReactiveUI.Fody.Helpers;
 using Waves.Core.Base;
 using Waves.Core.Base.Interfaces;
 using Waves.Core.Base.Interfaces.Services;
+using Waves.UI.Commands;
 using Waves.UI.Drawing.Base;
 using Waves.UI.Drawing.Charting.Base;
 using Waves.UI.Drawing.Charting.Base.Enums;
@@ -23,7 +24,6 @@ using Waves.UI.Drawing.ViewModel.Interfaces;
 using Waves.UI.Services.Interfaces;
 using Waves.UI.Showcase.Common.Presentation.ModalWindow;
 using Waves.UI.Showcase.Common.Services.Interfaces;
-using Waves.UI.WPF.Commands;
 
 namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
 {
@@ -103,12 +103,6 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// </summary>
         public ICommand OpenChartEditModalWindowCommand { get; private set; }
 
-        ///// <summary>
-        /////     Gets drawing element presentation.
-        ///// </summary>
-        //[Reactive]
-        //public IDrawingElementPresenter DrawingElementPresenter { get; private set; }
-
         /// <inheritdoc />
         public override void Initialize()
         {
@@ -120,52 +114,6 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
                 InitializeCommands();
 
                 AddNewChart();
-
-                //var context = DrawingElementPresenter.DataContext as IDataSetChartPresenterViewModel;
-                //if (context == null) return;
-
-                //context.Update();
-
-                //var num1 = 2048;
-                //var random1 = new Random();
-                //var points1 = new WavesPoint[num1];
-
-                //for (var i = 0; i < num1; i++)
-                //{
-                //    points1[i].X = i / (float) num1;
-                //    points1[i].Y = (float) random1.NextDouble() - 0.5f;
-                //}
-
-                //_chartColor = ThemeService.SelectedTheme.AccentColorSet.GetColor(500);
-
-                //var dataSet1 = new DataSet(points1)
-                //{
-                //    Color = _chartColor,
-                //    Type = DataSetType.BarWithEnvelope, Opacity = 0.75f
-                //};
-
-                //context.AddDataSet(dataSet1);
-
-                //var task = new Task(delegate
-                //{
-                //    do
-                //    {
-                //        points1 = new WavesPoint[num1];
-
-                //        for (var i = 0; i < num1; i++)
-                //        {
-                //            points1[i].X = i / (float) num1;
-                //            points1[i].Y = (float) random1.NextDouble() - 0.5f;
-                //        }
-
-                //        context.DataSets[0].Color = _chartColor;
-                //        context.UpdateDataSet(0, points1);
-
-                //        Thread.Sleep(64);
-
-                //    } while (true);
-                //});
-                //task.Start();
             }
             catch (Exception e)
             {
@@ -185,9 +133,9 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// </summary>
         private void InitializeCommands()
         {
-            AddChartCommand = new Command(OnAddChart);
-            RemoveChartCommand = new Command(OnRemoveChart, o => SelectedDrawingElementPresenter != null);
-            OpenChartEditModalWindowCommand = new Command(OnOpenChartEditModalWindow);
+            AddChartCommand = new SimpleCommand(OnAddChart);
+            RemoveChartCommand = new SimpleCommand(OnRemoveChart, o => SelectedDrawingElementPresenter != null);
+            OpenChartEditModalWindowCommand = new SimpleCommand(OnOpenChartEditModalWindow);
         }
 
         /// <summary>
@@ -214,7 +162,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         /// <param name="obj">Object.</param>
         private void OnOpenChartEditModalWindow(object obj)
         {
-            if (!(Core is WPF.Core core)) return;
+            if (!(Core is UI.Core core)) return;
             if (!(obj is IDrawingElementPresenter presenter)) return;
 
             EditChartModalWindowPresenter = new EditChartModalWindowPresenter(core, presenter);
@@ -273,7 +221,6 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
             {
                 var x = i / (float)num;
                 points[i].X = x;
-                //points[i].Y = Convert.ToSingle(Math.Abs(Math.Sin(Math.Pow(x,x))/Math.Pow(2, (Math.Pow(x,x) - Math.PI /2 + random.NextDouble()) / 2.0d))) / 2.0f;
                 points[i].Y = Convert.ToSingle(0.5 * Math.Sin(20*x));
             }
 
