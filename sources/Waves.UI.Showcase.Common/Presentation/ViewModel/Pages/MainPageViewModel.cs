@@ -29,14 +29,11 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
         /// </summary>
         /// <param name="core">Core.</param>
         /// <param name="navigationService">Navigation service.</param>
-        /// /// <param name="performanceCounterService">Instance of performance counter service.</param>
-        public MainPageViewModel(IWavesCore core, IWavesNavigationService navigationService, IWavesPerformanceCounterService performanceCounterService)
+        public MainPageViewModel(IWavesCore core, IWavesNavigationService navigationService)
         : base(core, navigationService)
         {
             _core = core;
             _navigationService = navigationService;
-
-            PerformanceCounterService = performanceCounterService;
 
             PropertyChanged += OnPropertyChanged;
         }
@@ -127,8 +124,6 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
             {
                 tab.Dispose();
             }
-
-            // TODO: your code for release unmanaged resources.
         }
 
         /// <summary>

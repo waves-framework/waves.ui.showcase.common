@@ -4,12 +4,7 @@
 
   <ItemGroup>
     <PackageReference Include="RandomDataGenerator.Net" Version="1.0.12" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\submodules\ui\sources\Waves.UI\Waves.UI.csproj" />
-    <ProjectReference Include="..\..\submodules\ui\submodules\core\sources\Waves.Core.Plugins.Services.Log.Console\Waves.Core.Plugins.Services.Log.Console.csproj" />
-    <ProjectReference Include="..\..\submodules\ui\submodules\core\sources\Waves.Core.Plugins.Services.Log.NLog\Waves.Core.Plugins.Services.Log.NLog.csproj" />
+    <PackageReference Include="Waves.UI" Version="2021.2.1-prerelease.3" />
   </ItemGroup>
 
 </Project>

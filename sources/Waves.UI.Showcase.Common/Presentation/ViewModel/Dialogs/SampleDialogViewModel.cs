@@ -19,16 +19,5 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Dialogs
             : base(navigationService)
         {
         }
-
-        /// <inheritdoc />
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // TODO: your code for release managed resources.
-            }
-
-            // TODO: your code for release unmanaged resources.
-        }
     }
 }
