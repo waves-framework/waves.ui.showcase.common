@@ -4,7 +4,7 @@
 
   <ItemGroup>
     <PackageReference Include="RandomDataGenerator.Net" Version="1.0.12" />
-    <PackageReference Include="Waves.UI" Version="2021.2.1-prerelease.3" />
+    <PackageReference Include="Waves.UI" Version="2021.2.1-prerelease.4" />
   </ItemGroup>
 
 </Project>
