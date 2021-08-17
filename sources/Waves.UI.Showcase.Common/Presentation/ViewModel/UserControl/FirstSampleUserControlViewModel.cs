@@ -38,11 +38,6 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.UserControl
             return Task.CompletedTask;
         }
 
-        /// <inheritdoc />
-        protected override void Dispose(bool disposing)
-        {
-        }
-
         /// <summary>
         /// Goes to second user control.
         /// </summary>

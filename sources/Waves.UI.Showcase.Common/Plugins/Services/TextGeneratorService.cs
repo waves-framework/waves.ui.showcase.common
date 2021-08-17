@@ -43,17 +43,5 @@ namespace Waves.UI.Showcase.Common.Plugins.Services
 
             return Task.CompletedTask;
         }
-
-        /// <inheritdoc />
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _textRandomizer = null;
-                _wordRandomizer = null;
-            }
-
-            // TODO: your code for release unmanaged resources.
-        }
     }
 }
