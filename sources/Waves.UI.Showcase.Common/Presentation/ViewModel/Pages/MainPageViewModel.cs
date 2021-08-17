@@ -124,8 +124,6 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
             {
                 tab.Dispose();
             }
-
-            // TODO: your code for release unmanaged resources.
         }
 
         /// <summary>
