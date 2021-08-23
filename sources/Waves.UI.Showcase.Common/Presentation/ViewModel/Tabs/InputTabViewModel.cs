@@ -41,11 +41,6 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
             }
 
             await AddPage<ButtonsPageViewModel>();
-            await AddPage<ToggleButtonsPageViewModel>();
-            await AddPage<TextBoxesPageViewModel>();
-            await AddPage<ComboBoxesPageViewModel>();
-            await AddPage<CheckBoxesPageViewModel>();
-            await AddPage<RadioButtonsPageViewModel>();
 
             IsInitialized = true;
         }

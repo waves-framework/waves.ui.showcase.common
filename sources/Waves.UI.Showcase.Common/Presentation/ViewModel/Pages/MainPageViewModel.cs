@@ -132,10 +132,6 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
         private async Task InitializeTabs()
         {
             await AddTab<InputTabViewModel>();
-            await AddTab<TextTabViewModel>();
-            await AddTab<TreeViewsTabViewModel>();
-            await AddTab<NavigationTabViewModel>();
-            await AddTab<ImagingTabViewModel>();
 
             if (Tabs.Count > 0)
             {

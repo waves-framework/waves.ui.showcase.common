@@ -80,7 +80,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages.Input
             InitializeButtonCommand();
             InitializeAccentButtonCommand();
 
-            await AddRelatedPage<ToggleButtonsPageViewModel>();
+            // await AddRelatedPage<ToggleButtonsPageViewModel>();
 
             IsInitialized = true;
         }
