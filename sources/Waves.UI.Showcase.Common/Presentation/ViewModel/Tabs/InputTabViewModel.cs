@@ -2,6 +2,7 @@
 using Waves.Core.Base.Interfaces;
 using Waves.UI.Plugins.Services.Interfaces;
 using Waves.UI.Presentation.Attributes;
+using Waves.UI.Showcase.Common.Plugins.Services.Interfaces;
 using Waves.UI.Showcase.Common.Presentation.ViewModel.Pages.Input;
 
 namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
@@ -28,7 +29,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
         public override string Title => "Input";
 
         /// <inheritdoc />
-        public override string Icon => "icon_left_click";
+        public override string Icon => "icon_color_checkbox";
 
         /// <inheritdoc />
         public override async Task InitializeAsync()
@@ -43,17 +44,6 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs
             await AddPage<ButtonsPageViewModel>();
 
             IsInitialized = true;
-        }
-
-        /// <inheritdoc />
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // TODO: your code for release managed resources.
-            }
-
-            // TODO: your code for release unmanaged resources.
         }
     }
 }
