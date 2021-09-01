@@ -33,7 +33,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages.Input
         public override string Description => "Examples of button controls, which reacts to the Click event.";
 
         /// <inheritdoc />
-        public override string Icon => "icon_button";
+        public override string Icon => "icon_color_button";
 
 #pragma warning disable SA1124 // Do not use regions
         #region 5bf5132dd4a4fe672c055605beb40ca6-Command

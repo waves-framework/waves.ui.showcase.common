@@ -19,6 +19,7 @@
   <!-- Color icons -->
   <ItemGroup>
     <EmbeddedResource Include="Resources\Assets\icon_color_checkbox.svg" />
+    <EmbeddedResource Include="Resources\Assets\icon_color_button.svg" />
   </ItemGroup>
 
 </Project>
