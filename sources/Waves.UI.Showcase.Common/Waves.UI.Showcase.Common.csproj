@@ -4,9 +4,9 @@
 
   <ItemGroup>
     <PackageReference Include="RandomDataGenerator.Net" Version="1.0.12" />
-    <PackageReference Include="Waves.UI" Version="2021.2.1-prerelease.5" />
-    <PackageReference Include="Waves.Core.Plugins.Services.Log.Console" Version="2021.2.1-prerelease.5" />
-    <PackageReference Include="Waves.Core.Plugins.Services.Log.NLog" Version="2021.2.1-prerelease.5" />
+    <PackageReference Include="Waves.UI" Version="2021.2.1-dev.164" />
+    <PackageReference Include="Waves.Core.Plugins.Services.Log.Console" Version="2021.2.1-dev.276" />
+    <PackageReference Include="Waves.Core.Plugins.Services.Log.NLog" Version="2021.2.1-dev.276" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,9 +14,6 @@
   </ItemGroup>
 
   <!-- Fill icons -->
-  <ItemGroup>
-<!--    <EmbeddedResource Include="Resources\Assets\icon_border.svg" />-->
-  </ItemGroup>
 
   <!-- Color icons -->
   <ItemGroup>
