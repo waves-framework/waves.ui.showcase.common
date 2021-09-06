@@ -4,7 +4,9 @@
 
   <ItemGroup>
     <PackageReference Include="RandomDataGenerator.Net" Version="1.0.12" />
-    <PackageReference Include="Waves.UI" Version="2021.2.1-dev.131" />
+    <PackageReference Include="Waves.UI" Version="2021.2.1-prerelease.5" />
+    <PackageReference Include="Waves.Core.Plugins.Services.Log.Console" Version="2021.2.1-prerelease.5" />
+    <PackageReference Include="Waves.Core.Plugins.Services.Log.NLog" Version="2021.2.1-prerelease.5" />
   </ItemGroup>
 
   <ItemGroup>
