@@ -1,13 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using ReactiveUI;
+﻿using Microsoft.Extensions.Logging;
 using ReactiveUI.Fody.Helpers;
-using Waves.Core.Base.Interfaces;
-using Waves.Core.Plugins.Services.Interfaces;
-using Waves.UI.Plugins.Services.Interfaces;
-using Waves.UI.Presentation.Attributes;
-using Waves.UI.Showcase.Common.Presentation.ViewModel.Tabs;
+using Waves.Core;
+using Waves.UI.Base.Attributes;
+using Waves.UI.Services.Interfaces;
 
 namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
 {
@@ -17,76 +12,19 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
     [WavesViewModel(typeof(MainPageViewModel))]
     public class MainPageViewModel : PageViewModel
     {
-        private readonly IWavesCore _core;
-        private readonly IWavesNavigationService _navigationService;
-        private TabViewModel _selectedTab;
-        private string _xamlDocumentPath;
-        private string _viewDocumentPath;
-        private string _viewModelDocumentPath;
-
         /// <summary>
         /// Creates new instance of <see cref="MainPageViewModel"/>.
         /// </summary>
         /// <param name="core">Core.</param>
         /// <param name="navigationService">Navigation service.</param>
-        public MainPageViewModel(IWavesCore core, IWavesNavigationService navigationService)
-        : base(core, navigationService)
+        /// <param name="logger">Logger.</param>
+        public MainPageViewModel(
+            WavesCore core,
+            IWavesNavigationService navigationService,
+            ILogger<PageViewModel> logger)
+            : base(core, navigationService, logger)
         {
-            _core = core;
-            _navigationService = navigationService;
-
-            PropertyChanged += OnPropertyChanged;
         }
-
-        /// <summary>
-        /// Gets performance counter service.
-        /// </summary>
-        public IWavesPerformanceCounterService PerformanceCounterService { get; }
-
-        /// <summary>
-        /// Gets or sets XAML document path.
-        /// </summary>
-        public string XamlDocumentPath
-        {
-            get => _xamlDocumentPath;
-            set => this.RaiseAndSetIfChanged(ref _xamlDocumentPath, value);
-        }
-
-        /// <summary>
-        /// Gets or sets view document path.
-        /// </summary>
-        public string ViewDocumentPath
-        {
-            get => _viewDocumentPath;
-            set => this.RaiseAndSetIfChanged(ref _viewDocumentPath, value);
-        }
-
-        /// <summary>
-        /// Gets or sets view-model document path.
-        /// </summary>
-        public string ViewModelDocumentPath
-        {
-            get => _viewModelDocumentPath;
-            set => this.RaiseAndSetIfChanged(ref _viewModelDocumentPath, value);
-        }
-
-        /// <summary>
-        /// Gets or sets selected tab.
-        /// </summary>
-        public TabViewModel SelectedTab
-        {
-            get => _selectedTab;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _selectedTab, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets collection of tabs.
-        /// </summary>
-        [Reactive]
-        public ObservableCollection<TabViewModel> Tabs { get; protected set; }
 
         /// <inheritdoc />
         public override string Title { get; } = "Main page";
@@ -96,68 +34,5 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
 
         /// <inheritdoc />
         public override string Icon { get; } = string.Empty;
-
-        /// <inheritdoc />
-        public override async Task InitializeAsync()
-        {
-            if (IsInitialized)
-            {
-                return;
-            }
-
-            Tabs = new ObservableCollection<TabViewModel>();
-
-            await InitializeTabs();
-
-            IsInitialized = true;
-        }
-
-        /// <inheritdoc />
-        protected override void Dispose(bool disposing)
-        {
-            if (!disposing)
-            {
-                return;
-            }
-
-            foreach (var tab in Tabs)
-            {
-                tab.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// Initializes application tabs.
-        /// </summary>
-        private async Task InitializeTabs()
-        {
-            await AddTab<InputTabViewModel>();
-
-            if (Tabs.Count > 0)
-            {
-                SelectedTab = Tabs[0];
-            }
-        }
-
-        /// <summary>
-        /// Adds tab to collection by current type.
-        /// </summary>
-        /// <typeparam name="T">Type of tab view model.</typeparam>
-        private async Task AddTab<T>()
-            where T : TabViewModel
-        {
-            var viewModel = await _core.GetInstanceAsync<T>();
-            await viewModel.InitializeAsync();
-            Tabs.Add(viewModel);
-        }
-
-        private void OnPropertyChanged(
-            object sender,
-            PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals(nameof(XamlDocumentPath)))
-            {
-            }
-        }
     }
 }
