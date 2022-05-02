@@ -21,7 +21,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
         public MainPageViewModel(
             WavesCore core,
             IWavesNavigationService navigationService,
-            ILogger<PageViewModel> logger)
+            ILogger<MainPageViewModel> logger)
             : base(core, navigationService, logger)
         {
         }

@@ -17,7 +17,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
         /// <summary>
         /// Creates new instance of <see cref="PageViewModel"/>.
         /// </summary>
-        /// <param name="core">Instance of <see cref="IWavesCore"/>.</param>
+        /// <param name="core">Instance of <see cref="WavesCore"/>.</param>
         /// <param name="navigationService">Instance of <see cref="IWavesNavigationService"/>.</param>
         /// <param name="logger">Logger.</param>
         protected PageViewModel(
