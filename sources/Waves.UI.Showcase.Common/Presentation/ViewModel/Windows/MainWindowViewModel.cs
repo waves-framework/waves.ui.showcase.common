@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Logging;
+using Waves.UI.Base.Attributes;
 using Waves.UI.Presentation;
-using Waves.UI.Presentation.Attributes;
 
 namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Windows
 {
@@ -10,17 +10,13 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Windows
     [WavesViewModel(typeof(MainWindowViewModel))]
     public class MainWindowViewModel : WavesViewModelBase
     {
-        /// <inheritdoc />
-        public override Task InitializeAsync()
+        /// <summary>
+        /// Creates new instance of <see cref="MainWindowViewModel"/>.
+        /// </summary>
+        /// <param name="logger">Logger.</param>
+        public MainWindowViewModel(ILogger<WavesViewModelBase> logger)
+            : base(logger)
         {
-            if (IsInitialized)
-            {
-                return Task.CompletedTask;
-            }
-
-            IsInitialized = true;
-
-            return Task.CompletedTask;
         }
     }
 }
