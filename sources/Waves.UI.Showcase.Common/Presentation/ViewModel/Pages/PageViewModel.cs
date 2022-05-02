@@ -1,12 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Waves.Core.Base.Interfaces;
-using Waves.UI.Plugins.Services.Interfaces;
+using Waves.Core;
 using Waves.UI.Presentation;
+using Waves.UI.Services.Interfaces;
 
 namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
 {
@@ -18,11 +17,14 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
         /// <summary>
         /// Creates new instance of <see cref="PageViewModel"/>.
         /// </summary>
-        /// <param name="core">Instance of <see cref="IWavesCore"/>.</param>
+        /// <param name="core">Instance of <see cref="WavesCore"/>.</param>
         /// <param name="navigationService">Instance of <see cref="IWavesNavigationService"/>.</param>
+        /// <param name="logger">Logger.</param>
         protected PageViewModel(
-            IWavesCore core,
-            IWavesNavigationService navigationService)
+            WavesCore core,
+            IWavesNavigationService navigationService,
+            ILogger<PageViewModel> logger)
+            : base(logger)
         {
             Core = core;
             NavigationService = navigationService;
@@ -63,7 +65,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
         /// <summary>
         /// Gets core.
         /// </summary>
-        protected IWavesCore Core { get; }
+        protected WavesCore Core { get; }
 
         /// <summary>
         /// Gets navigation service.
