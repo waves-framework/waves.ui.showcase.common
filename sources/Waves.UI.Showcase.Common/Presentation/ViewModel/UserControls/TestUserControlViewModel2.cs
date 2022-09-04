@@ -23,7 +23,7 @@ public class TestUserControlViewModel2 : WavesViewModelBase<string, int>
     /// <param name="logger">Logger.</param>
     public TestUserControlViewModel2(
         IWavesNavigationService navigationService,
-        ILogger<TestUserControlViewModel> logger)
+        ILogger<TestUserControlViewModel2> logger)
         : base(logger)
     {
         _navigationService = navigationService;
