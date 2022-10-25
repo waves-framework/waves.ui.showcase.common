@@ -3,3 +3,5 @@
 *\.idea
 *\.vs
 packages/
+*.user
+*.DS_Store
