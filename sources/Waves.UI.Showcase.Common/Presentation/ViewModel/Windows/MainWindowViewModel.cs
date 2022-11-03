@@ -14,7 +14,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Windows
         /// Creates new instance of <see cref="MainWindowViewModel"/>.
         /// </summary>
         /// <param name="logger">Logger.</param>
-        public MainWindowViewModel(ILogger<WavesViewModelBase> logger)
+        public MainWindowViewModel(ILogger<MainWindowViewModel> logger)
             : base(logger)
         {
         }
