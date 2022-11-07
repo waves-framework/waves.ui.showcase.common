@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Waves.Core;
+using Waves.Core.Services.Interfaces;
 using Waves.UI.Presentation;
 using Waves.UI.Services.Interfaces;
 
@@ -14,19 +15,21 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
     /// </summary>
     public abstract class PageViewModel : WavesViewModelBase
     {
+        private readonly IWavesServiceProvider _serviceProvider;
+
         /// <summary>
-        /// Creates new instance of <see cref="PageViewModel"/>.
+        /// Initializes a new instance of the <see cref="PageViewModel"/> class.
         /// </summary>
-        /// <param name="core">Instance of <see cref="WavesCore"/>.</param>
+        /// <param name="serviceProvider">Service provider..</param>
         /// <param name="navigationService">Instance of <see cref="IWavesNavigationService"/>.</param>
         /// <param name="logger">Logger.</param>
         protected PageViewModel(
-            WavesCore core,
+            IWavesServiceProvider serviceProvider,
             IWavesNavigationService navigationService,
             ILogger<PageViewModel> logger)
             : base(logger)
         {
-            Core = core;
+            _serviceProvider = serviceProvider;
             NavigationService = navigationService;
             InitializeCommands();
         }
@@ -88,7 +91,7 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
         protected async Task AddRelatedPage<T>()
             where T : PageViewModel
         {
-            var viewModel = await Core.GetInstanceAsync<T>();
+            var viewModel = await _serviceProvider.GetInstanceAsync<T>();
             RelatedPages.Add(viewModel);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using ReactiveUI.Fody.Helpers;
 using Waves.Core;
+using Waves.Core.Services.Interfaces;
 using Waves.UI.Base.Attributes;
 using Waves.UI.Services.Interfaces;
 
@@ -13,16 +14,16 @@ namespace Waves.UI.Showcase.Common.Presentation.ViewModel.Pages
     public class MainPageViewModel : PageViewModel
     {
         /// <summary>
-        /// Creates new instance of <see cref="MainPageViewModel"/>.
+        /// Initializes a new instance of the <see cref="MainPageViewModel"/> class.s
         /// </summary>
-        /// <param name="core">Core.</param>
+        /// <param name="serviceProvider">Service provider.</param>
         /// <param name="navigationService">Navigation service.</param>
         /// <param name="logger">Logger.</param>
         public MainPageViewModel(
-            WavesCore core,
+            IWavesServiceProvider serviceProvider,
             IWavesNavigationService navigationService,
             ILogger<MainPageViewModel> logger)
-            : base(core, navigationService, logger)
+            : base(serviceProvider, navigationService, logger)
         {
         }
 
